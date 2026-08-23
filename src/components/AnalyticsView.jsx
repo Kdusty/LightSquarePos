@@ -1,7 +1,7 @@
 import { TrendingUp, Receipt, Star, CreditCard } from "lucide-react";
 import { fmt, todayStr, CATS } from "../data/initialData.js";
 
-const CAT_COLORS = { Drinks: "#6c63ff", Food: "#22c55e", Desserts: "#ec4899", Snacks: "#f59e0b", Retail: "#3b82f6" };
+const CAT_COLORS = { Drinks: "#0ea5e9", Food: "#22c55e", Desserts: "#ec4899", Snacks: "#f59e0b", Retail: "#3b82f6" };
 
 export default function AnalyticsView({
   transactions, products, stockThreshold, aRange, setARange, calRef, calOpen, setCalOpen,
@@ -210,12 +210,12 @@ export default function AnalyticsView({
               <svg viewBox={`0 0 ${sparkW} ${sparkH}`} preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }}>
                 <defs>
                   <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6c63ff" stopOpacity=".5" />
-                    <stop offset="100%" stopColor="#6c63ff" stopOpacity="0" />
+                    <stop offset="0%" stopColor="currentColor" stopOpacity=".25" />
+                    <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                <path d={sparkArea} fill="url(#sparkGrad)" />
-                <path d={sparkPath} fill="none" stroke="#6c63ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={sparkArea} fill="url(#sparkGrad)" style={{ color: "var(--text2)" }} />
+                <path d={sparkPath} fill="none" stroke="var(--text2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
             <div className="ibar-chart">
@@ -263,7 +263,7 @@ export default function AnalyticsView({
                   const intensity = h.volume / maxHour;
                   return (
                     <div key={h.h} className="hour-cell"
-                      style={{ background: intensity === 0 ? "var(--surface2)" : `rgba(108,99,255,${Math.max(intensity * .85, .06)})`, color: intensity > .5 ? "white" : "var(--text3)" }}
+                      style={{ background: intensity === 0 ? "var(--surface2)" : `rgba(var(--peak-rgb),${Math.max(intensity * .85, .06)})`, color: intensity > .5 ? "var(--bg)" : "var(--text3)" }}
                       title={`${h.label}: ${h.volume} orders`}>
                       {h.label}
                     </div>

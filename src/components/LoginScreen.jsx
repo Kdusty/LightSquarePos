@@ -99,13 +99,13 @@ export default function LoginScreen() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #0f0e17;
+          background: #0D0D0F;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         .ls-login-card {
-          background: #1a1825;
-          border: 1px solid rgba(108, 99, 255, 0.25);
+          background: #121214;
+          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 20px;
           padding: 48px 44px 44px;
           width: 100%;
@@ -123,7 +123,7 @@ export default function LoginScreen() {
         .ls-login-logo-icon {
           width: 38px;
           height: 38px;
-          background: #6c63ff;
+          background: #FFFFFF;
           border-radius: 10px;
           display: flex;
           align-items: center;
@@ -137,7 +137,7 @@ export default function LoginScreen() {
           letter-spacing: -0.5px;
         }
 
-        .ls-login-logo-text span { color: #6c63ff; }
+        .ls-login-logo-text span { color: #FFFFFF; }
 
         .ls-login-heading {
           font-size: 26px;
@@ -168,7 +168,7 @@ export default function LoginScreen() {
         .ls-login-input {
           width: 100%;
           background: #12111e;
-          border: 1px solid rgba(108, 99, 255, 0.2);
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 10px;
           padding: 12px 14px;
           font-size: 15px;
@@ -177,7 +177,7 @@ export default function LoginScreen() {
           transition: border-color 0.18s;
         }
 
-        .ls-login-input:focus { border-color: #6c63ff; }
+        .ls-login-input:focus { border-color: rgba(255,255,255,0.45); }
 
         .ls-login-error {
           background: rgba(239, 68, 68, 0.12);
@@ -202,8 +202,8 @@ export default function LoginScreen() {
 
         .ls-login-btn {
           width: 100%;
-          background: #6c63ff;
-          color: #fff;
+          background: #FFFFFF;
+          color: #0D0D0F;
           border: none;
           border-radius: 10px;
           padding: 13px;
@@ -218,7 +218,7 @@ export default function LoginScreen() {
           gap: 8px;
         }
 
-        .ls-login-btn:hover:not(:disabled) { background: #5a52e0; }
+        .ls-login-btn:hover:not(:disabled) { background: #E8E8E8; }
         .ls-login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .ls-login-footer {
@@ -229,7 +229,7 @@ export default function LoginScreen() {
         }
         
         .ls-login-link {
-          color: #6c63ff;
+          color: rgba(255,255,255,0.75);
           background: none;
           border: none;
           font-weight: 600;
@@ -246,10 +246,10 @@ export default function LoginScreen() {
           <div className="ls-login-logo">
             <div className="ls-login-logo-icon">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <rect x="2" y="2" width="7" height="7" rx="1.5" fill="white" />
-                <rect x="11" y="2" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.6)" />
-                <rect x="2" y="11" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.6)" />
-                <rect x="11" y="11" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.3)" />
+                <rect x="2" y="2" width="7" height="7" rx="1.5" fill="#1A1A1A" />
+                <rect x="11" y="2" width="7" height="7" rx="1.5" fill="rgba(0,0,0,0.45)" />
+                <rect x="2" y="11" width="7" height="7" rx="1.5" fill="rgba(0,0,0,0.45)" />
+                <rect x="11" y="11" width="7" height="7" rx="1.5" fill="rgba(0,0,0,0.2)" />
               </svg>
             </div>
             <span className="ls-login-logo-text">Light<span>Square</span></span>
