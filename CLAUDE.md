@@ -1,7 +1,7 @@
 # LightSquare POS — Project Protocol
 
 **Stack:** React 18 + Vite 5 + Supabase (auth, db, realtime, storage) + lucide-react  
-**Live:** app.lightsquarepos.com | **Supabase:** rjgbnxaahmfyaasyqirp | **GitHub:** devaidusty/LightSquare
+**Live:** app.lightsquarepos.com | **Supabase:** rjgbnxaahmfyaasyqirp | **GitHub:** Kdusty/LightSquarePos
 
 ---
 
@@ -108,6 +108,12 @@ Every task must be logged in `docs/changelog.md`. No exceptions.
 
 **After completing:** Fill in every file touched and commit hash(es).
 
+**Entry position:** New entries go at the **TOP** of `docs/changelog.md` (most recent first). Never append to the bottom.
+
+**Changes list rules:**
+- Name every file touched — never write "various files" or bundle multiple files into one vague line
+- If a task is abandoned or superseded, add `**Status: Abandoned**` and explain why before closing
+
 **DB migration rule:** After any migration, `docs/db-schema.md` must be updated before the task closes. A migration with no `db-schema.md` update is incomplete.
 
 **Type labels:**
@@ -137,9 +143,11 @@ Before implementing any change, state:
 - What could break if this goes wrong
 - Whether investigation is needed first
 
-LOW → stop, investigate, plan, wait for approval  
-MEDIUM → propose approach + risks, wait for confirmation  
-HIGH → proceed, flag BREAK RISK areas inline; if the change touches a critical flow, state which checklist items from `docs/testing.md` were verified
+| Confidence | Meaning | Action |
+|---|---|---|
+| **HIGH** | Fully understood, clear path, low blast radius | Proceed — flag BREAK RISK areas inline; note which `docs/testing.md` items were checked if a critical flow is touched |
+| **MEDIUM** | Mostly clear but unknowns or tricky interactions exist | Propose approach + risks in response, then **stop and wait for explicit confirmation** before calling any Edit / Write / Bash |
+| **LOW** | Unclear requirements, touches security/RLS/auth, or could cascade | Stop — investigate, write a plan, get approval. Do not touch code. |
 
 HARD STOP: You MUST write the gate output in your response text BEFORE calling any Edit / Write / NotebookEdit tool or any Bash command that modifies files or runs git. The gate must be VISIBLE in your response — thinking it does not count. A code change with no gate text above it is a protocol violation.
 
@@ -148,3 +156,15 @@ Format (copy exactly):
 - Confidence: HIGH / MEDIUM / LOW
 - Break risk: [what breaks if this goes wrong]
 - Investigation needed: yes / no — [why]
+
+---
+
+## 8. Supabase Query Rules
+
+1. **Always `await` Supabase queries.** A query builder without `await`, `.then()`, or `.catch()` never sends the HTTP request. Silent no-ops are harder to debug than loud errors.
+
+2. **Always capture `{ error }` and log it.** Never discard the error return. Silent failures cause data to appear saved when it wasn't.
+
+3. **Fire-and-forget requires `.then(() => {})`** — never leave a floating query (e.g. `supabase.from(...).update(...)` with no await and no `.then()`). If you don't need the result, at minimum chain `.then(() => {})` so the request actually fires.
+
+4. **`.update()` not `.upsert()` on `store_settings`.** The row is guaranteed by the provisioning trigger. Upsert silently fails due to the UNIQUE constraint on `owner_id` (see INC-005 and Security Rule 6 in Section 3).

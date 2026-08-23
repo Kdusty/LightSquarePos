@@ -52,6 +52,23 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-018 — Protocol upgrade: CLAUDE.md patched to SwiftCues discipline
+
+**Date:** 2026-08-23
+**Type:** Docs
+**Requested:** Adopt stricter protocol from SwiftCues CLAUDE.md — changelog position, file naming rules, abandoned task rule, MEDIUM gate, Supabase query rules
+**Decision:** Targeted patches only — no structural rewrite; all additions are additive, nothing removed
+
+**Changes:**
+- `CLAUDE.md` — Fixed GitHub URL (devaidusty → Kdusty/LightSquarePos)
+- `CLAUDE.md` — Section 5: added entry position rule (TOP, most recent first), file naming rule (no "various files"), abandoned task rule
+- `CLAUDE.md` — Section 7: MEDIUM confidence now explicit — propose + stop, wait for confirmation before any Edit/Bash
+- `CLAUDE.md` — Added Section 8: Supabase Query Rules (always await, capture error, no floating queries, update not upsert)
+
+**Commits:** (pending)
+
+---
+
 ## CHG-017 — SVG favicon + dark/light mode logo audit
 
 **Date:** 2026-08-23
@@ -63,7 +80,7 @@ Running log of every task, most recent first.
 - `public/favicon.svg` — Created: 32x32 SVG, rx=7 rounded rect, white Lucide Zap polygon, always dark bg (#1A1A1A)
 - `index.html` — SVG favicon as primary, PNG as fallback, apple-touch-icon, theme-color #0D0D0F
 
-**Commits:** (pending)
+**Commits:** b1aa5c9
 
 ---
 
