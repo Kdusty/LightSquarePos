@@ -48,6 +48,21 @@ Running log of every task, most recent first.
 - `src/styles/buildCSS.js` — `.rtype-btn.active .rt-label` → `var(--ctrl-active-text)` (preserves contrast on inverted bg)
 - `src/styles/buildCSS.js` — `.kt-num` fixed width 34px → `min-width:34px;padding:0 7px;font-size:12px` (badge expands for longer codes)
 
+**Commits:** 4a9cd63
+
+---
+
+## CHG-017 — SVG favicon + dark/light mode logo audit
+
+**Date:** 2026-08-23
+**Type:** Refactor
+**Requested:** Keep bolt icon; ensure logo works in both dark/light mode; update favicon
+**Decision:** Create vector SVG favicon (dark rounded square + white bolt, scales perfectly); SVG takes priority in modern browsers, PNG fallback kept; apple-touch-icon and theme-color meta added
+
+**Changes:**
+- `public/favicon.svg` — Created: 32x32 SVG, rx=7 rounded rect, white Lucide Zap polygon, always dark bg (#1A1A1A)
+- `index.html` — SVG favicon as primary, PNG as fallback, apple-touch-icon, theme-color #0D0D0F
+
 **Commits:** (pending)
 
 ---
