@@ -150,7 +150,7 @@ export default function LockScreen({ storeName, staff, setCurrentUser, setLockSc
         </div>
       ) : (
         <div className="pin-panel">
-          <div className="lock-av" style={{ width: 52, height: 52, borderRadius: 99, background: "linear-gradient(135deg,var(--accent),#a78bfa)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 800, fontSize: 18, margin: "0 auto 14px" }}>
+          <div className={`lock-av ${pinTarget.role}`} style={{ margin: "0 auto 14px" }}>
             {pinTarget.avatar}
           </div>
           <div className="pin-title">{pinTarget.name}</div>
@@ -195,7 +195,7 @@ export default function LockScreen({ storeName, staff, setCurrentUser, setLockSc
           ) : (
             /* --- STANDARD PIN PAD UI --- */
             <>
-              <div className="pin-subtitle" style={{ color: isSettingPin ? "var(--accent)" : "inherit", fontWeight: isSettingPin ? 600 : 400 }}>
+              <div className="pin-subtitle" style={{ color: isSettingPin ? "var(--text)" : "inherit", fontWeight: isSettingPin ? 600 : 400 }}>
                 {isSettingPin ? "New Profile: Create your 4-digit PIN" : `${ROLE_LABELS[pinTarget.role]} — Enter your 4-digit PIN`}
               </div>
               

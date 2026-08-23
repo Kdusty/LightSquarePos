@@ -207,7 +207,7 @@ export default function MiscModals({
               {staffForm.pin.length > 0 && staffForm.pin.length < 4 && <div style={{ fontSize: 11, color: "var(--amber-text)", textAlign: "center", marginTop: 6 }}>{4 - staffForm.pin.length} more digit{4 - staffForm.pin.length !== 1 ? "s" : ""} needed</div>}
             </div>
             <label className="restore-toggle" style={{ marginBottom: 16 }}>
-              <input type="checkbox" checked={staffForm.active} onChange={e => setStaffForm(f => ({ ...f, active: e.target.checked }))} style={{ accentColor: "var(--accent)" }} />
+              <input type="checkbox" checked={staffForm.active} onChange={e => setStaffForm(f => ({ ...f, active: e.target.checked }))} style={{ accentColor: "var(--text)" }} />
               <div className="restore-toggle-text">
                 <strong>Active account</strong>
                 <span>Inactive staff cannot log in to the POS</span>

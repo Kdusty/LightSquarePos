@@ -63,7 +63,7 @@ export default function Sidebar({
 
         <div className="sb-bottom">
           <div className="user-card">
-            <div className={`user-av ${currentUser?.role || "cashier"}`} style={{ background: currentUser?.role === "owner" ? "linear-gradient(135deg,var(--accent),#a78bfa)" : currentUser?.role === "manager" ? "linear-gradient(135deg,#22c55e,#16a34a)" : "linear-gradient(135deg,#3b82f6,#2563eb)" }}>
+            <div className={`user-av ${currentUser?.role || "cashier"}`} style={{ background: currentUser?.role === "owner" ? "var(--text)" : currentUser?.role === "manager" ? "#22c55e" : "#3b82f6", color: currentUser?.role === "owner" ? "var(--bg)" : "white" }}>
               {currentUser?.avatar || "?"}
             </div>
             <div className="user-info">

@@ -101,7 +101,7 @@ export default function SettingsView({
                 <p className="desc">Get notified automatically when a product's stock reaches this level</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "16px 0" }}>
                   <div style={{ flex: 1 }}>
-                    <input type="range" min="1" max="20" value={stockThreshold} onChange={e => setStockThreshold(+e.target.value)} style={{ width: "100%", accentColor: "var(--accent)" }} />
+                    <input type="range" min="1" max="20" value={stockThreshold} onChange={e => setStockThreshold(+e.target.value)} style={{ width: "100%", accentColor: "var(--text)" }} />
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text3)", marginTop: 4 }}>
                       <span>1 (very tight)</span><span>20 (early warning)</span>
                     </div>
@@ -275,21 +275,21 @@ export default function SettingsView({
                       <span>Trial progress</span><span>{14 - daysLeft}/14 days used</span>
                     </div>
                     <div style={{ height: 6, background: "var(--surface3)", borderRadius: 99, overflow: "hidden" }}>
-                      <div style={{ height: "100%", width: `${Math.min(((14 - daysLeft) / 14) * 100, 100)}%`, background: daysLeft <= 3 ? "var(--red-text)" : "var(--accent)", borderRadius: 99, transition: "width .3s" }} />
+                      <div style={{ height: "100%", width: `${Math.min(((14 - daysLeft) / 14) * 100, 100)}%`, background: daysLeft <= 3 ? "var(--red-text)" : "var(--text)", borderRadius: 99, transition: "width .3s" }} />
                     </div>
                   </div>
                 )}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12, marginBottom: 24 }}>
                   {[
                     { id: "starter", label: "Starter", price: "₱299", period: "/mo", color: "var(--green-text)", bg: "var(--green-bg)", features: ["Unlimited products", "Full analytics", "1 device", "Priority support"] },
-                    { id: "growth", label: "Growth", price: "₱599", period: "/mo", color: "var(--accent-text)", bg: "var(--accent-bg)", features: ["Everything in Starter", "Up to 3 devices", "Multi-user roles", "Kitchen display"], badge: "Popular" },
+                    { id: "growth", label: "Growth", price: "₱599", period: "/mo", color: "var(--text)", bg: "var(--surface3)", features: ["Everything in Starter", "Up to 3 devices", "Multi-user roles", "Kitchen display"], badge: "Popular" },
                     { id: "annual", label: "Annual", price: "₱2,988", period: "/yr", color: "var(--amber-text)", bg: "var(--amber-bg)", features: ["Starter features", "Save ₱600/year", "1 device", "Email support"] },
                   ].map(plan => {
                     const isCurrent = tier === plan.id;
                     const isPending = status === "pending" && tier === plan.id;
                     return (
-                      <div key={plan.id} style={{ border: `2px solid ${isCurrent ? "var(--accent)" : "var(--border)"}`, borderRadius: "var(--r)", padding: 16, background: isCurrent ? plan.bg : "var(--surface2)", position: "relative", transition: "all var(--transition)" }}>
-                        {plan.badge && <div style={{ position: "absolute", top: -10, right: 12, background: "var(--accent)", color: "white", fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 99 }}>{plan.badge}</div>}
+                      <div key={plan.id} style={{ border: `2px solid ${isCurrent ? "var(--focus-border)" : "var(--border)"}`, borderRadius: "var(--r)", padding: 16, background: isCurrent ? plan.bg : "var(--surface2)", position: "relative", transition: "all var(--transition)" }}>
+                        {plan.badge && <div style={{ position: "absolute", top: -10, right: 12, background: "var(--text)", color: "var(--bg)", fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 99 }}>{plan.badge}</div>}
                         <div style={{ fontWeight: 800, fontSize: 14, color: plan.color, marginBottom: 4 }}>{plan.label}</div>
                         <div style={{ fontFamily: "var(--mono)", fontSize: 22, fontWeight: 900, color: "var(--text)", lineHeight: 1 }}>{plan.price}<span style={{ fontSize: 12, fontWeight: 400, color: "var(--text3)" }}>{plan.period}</span></div>
                         <div style={{ margin: "12px 0", display: "flex", flexDirection: "column", gap: 5 }}>
