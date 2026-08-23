@@ -14,11 +14,6 @@ export default function POSView({
   setVariantModal
 }) {
   
-  // The live grenade. Confined to Vite development mode so you aren't sacked tomorrow.
-  if (import.meta.env.DEV && Math.random() > 0.5) {
-    throw new Error("Simulated POS Crash for Error Boundary Testing");
-  }
-
   return (
     <div className="pos-layout">
       <ProductGrid 

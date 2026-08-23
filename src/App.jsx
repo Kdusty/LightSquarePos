@@ -76,7 +76,7 @@ function MainApp({ authUser }) {
 
   useEffect(() => {
     console.log('LightSquare POS Data Layer Mounted:', {
-      authUser: authUser.email,
+      authUser: authUser?.email,
       staffCount: staff?.length,
       productsCount: products?.length,
       transactionsCount: transactions?.length,
@@ -140,7 +140,7 @@ function MainApp({ authUser }) {
   // --- GLOBAL UI STATE ---
   const [dark, setDark] = useState(true);
   const [lockScreen, setLockScreen] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null); 
+  const [currentUser, setCurrentUser] = useState(null);
   const [sidebarOpen, setSidebar] = useState(true);
   const [view, setView] = useState("pos");
 

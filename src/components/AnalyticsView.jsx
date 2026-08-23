@@ -165,9 +165,9 @@ export default function AnalyticsView({
             onClick={() => setEodOpen(true)}
             style={{
               position: "absolute", top: 0, right: 0, display: "flex", alignItems: "center", gap: 7,
-              padding: "8px 16px", borderRadius: "var(--r-sm)", background: "linear-gradient(135deg,var(--accent),#a78bfa)",
-              color: "white", border: "none", fontSize: "13px", fontWeight: 800, cursor: "pointer",
-              boxShadow: "0 4px 12px var(--accent-glow)", zIndex: 10, transition: "all var(--transition)"
+              padding: "8px 16px", borderRadius: "var(--r-sm)", background: "var(--cta-bg)",
+              color: "var(--cta-text)", border: "none", fontSize: "13px", fontWeight: 800, cursor: "pointer",
+              boxShadow: "none", zIndex: 10, transition: "all var(--transition)"
             }}
           >
             📋 End of Day Report
@@ -175,7 +175,7 @@ export default function AnalyticsView({
         )}
         <div className="stat-grid">
           {[
-            { label: "Gross Revenue", value: fmt(curRev), cur: curRev, prev: prevRev, sub: `vs prev period`, color: "#6c63ff", icon: <TrendingUp size={17} />, iconBg: "var(--accent-bg)", iconC: "var(--accent-text)" },
+            { label: "Gross Revenue", value: fmt(curRev), cur: curRev, prev: prevRev, sub: `vs prev period`, color: "var(--text2)", icon: <TrendingUp size={17} />, iconBg: "var(--surface3)", iconC: "var(--text2)" },
             { label: "Net Profit", value: fmt(curProfit), cur: curProfit, prev: prevProfit, sub: `${fmt(curCogs)} in COGS`, color: "#22c55e", icon: <Star size={17} />, iconBg: "var(--green-bg)", iconC: "var(--green-text)" },
             { label: "Profit Margin", value: `${curMargin}%`, cur: curMargin, prev: prevMargin, sub: "Average margin", color: "#f59e0b", icon: <Receipt size={17} />, iconBg: "var(--amber-bg)", iconC: "var(--amber-text)" },
             { label: "Orders", value: curOrders, cur: curOrders, prev: prevOrders, sub: `${curItems} items sold`, color: "#3b82f6", icon: <CreditCard size={17} />, iconBg: "var(--blue-bg)", iconC: "var(--blue)" },

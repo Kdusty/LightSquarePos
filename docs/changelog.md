@@ -4,6 +4,38 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-015 — Design system overhaul: full purple elimination + brand fonts
+
+**Date:** 2026-08-23
+**Type:** Refactor
+**Requested:** Remove all purple gradients and highlights; match brand fonts from lightsquarepos.com; unify dark/light mode to B&W editorial aesthetic
+**Decision:** Systematic pass through `buildCSS.js` — new neutral control variables, all accent-colored interactive states migrated; brand fonts imported
+
+**Changes:**
+- `src/styles/buildCSS.js` — Added 7 new CSS variables (`--ctrl-active-bg/text/border`, `--cta-bg/text`, `--focus-border`, `--sh-glow` neutral)
+- `src/styles/buildCSS.js` — Replaced all 18 `linear-gradient` instances using `var(--accent)` with flat `var(--accent)` or semantic colors
+- `src/styles/buildCSS.js` — Removed all 7 purple glow `box-shadow` variants (`0 Xpx Ypx var(--accent-glow)`)
+- `src/styles/buildCSS.js` — Background/text/border variables neutralised (dark: `#0D0D0F`, light: `#F5F5F5`)
+- `src/styles/buildCSS.js` — Corrected brand accent: `#6C63FF` (was `#5B4FE9`)
+- `src/styles/buildCSS.js` — Added DM Sans (variable) + Space Mono Google Fonts import
+- `src/styles/buildCSS.js` — Nav active, category pills, range pills, date pills, payment method buttons → `var(--ctrl-active-*)`
+- `src/styles/buildCSS.js` — `.btn-primary`, `.charge-btn`, `.cal-apply`, `.eod-close-day-btn` → `var(--cta-bg/text)` (black/white swap per theme)
+- `src/styles/buildCSS.js` — All `input:focus` / `textarea:focus` border-color → `var(--focus-border)` (5 with glow + 7 without)
+- `src/styles/buildCSS.js` — `.qty-btn:hover`, `.qa-btn:hover` → `var(--ctrl-active-*)`
+- `src/styles/buildCSS.js` — `.eod-kpi.accent` → neutral surface3 + focus-border
+- `src/styles/buildCSS.js` — `.eod-drawer-input` border → `var(--focus-border)`
+- `src/styles/buildCSS.js` — `.or-viewed-bar` and `.bg-purple` hardcoded `rgba(91,79,233,...)` → `var(--border2)` / `var(--surface2)`
+- `src/styles/buildCSS.js` — All hover states (`sb-toggle`, `theme-btn`, `disc-pill`, `hold-chip`, `cal-short`, `ri-qty-btn`, `view-receipt-btn`, `qr-upload`, `print-btn`, `upload-drop`) → neutral border2/surface3
+- `src/styles/buildCSS.js` — All selection states (`vp-opt.sel`, `rtype-btn.active`, `disc-opt.sel`, `media-opt.sel`, `icon-cell.sel`) → `var(--ctrl-active-*)`
+- `src/styles/buildCSS.js` — EOD banner background → `#1A1A1A` flat (was gradient "AI banner")
+- `src/styles/buildCSS.js` — GCash modal header → `#0070ba` flat (was gradient)
+- `src/components/POSView.jsx` — Removed intentional `Math.random() > 0.5` crash grenade in DEV mode
+- `src/App.jsx` — Auth gate bypassed for local dev (to be restored before production)
+
+**Commits:** (pending)
+
+---
+
 ## CHG-014 — Resurrect project for modernisation sprint
 
 **Date:** 2026-08-23  
