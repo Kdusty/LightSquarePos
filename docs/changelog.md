@@ -4,6 +4,22 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-019 — Onboarding: step-by-step interactive tour on first login
+
+**Date:** 2026-08-23
+**Type:** Feature
+**Requested:** New user first login shows a guided walkthrough (step 1 of 8 format) with screenshots of each feature
+**Decision:** New `OnboardingGuide.jsx` component — fixed overlay, real screenshots from `public/Interactive Guides SS/`, triggered once via `localStorage` flag `ls_tour_done`
+
+**Changes:**
+- `src/components/OnboardingGuide.jsx` — new component: 12-step overlay tour, real screenshots for all steps, triggered by `ls_tour_done` localStorage flag
+- `src/App.jsx` — import `OnboardingGuide`, added `showOnboarding` state (lazy init from localStorage), added `dismissTour()` helper, mounted overlay in main return above the app shell
+- `public/Interactive Guides SS/` — 12 screenshot assets (step1.png–step12.png) added by user
+
+**Commits:** (pending)
+
+---
+
 ## CHG-015 — Design system overhaul: full purple elimination + brand fonts
 
 **Date:** 2026-08-23

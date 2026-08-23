@@ -2,11 +2,11 @@ import { ShoppingCart, LayoutDashboard, Package, Receipt, Settings, Zap } from "
 import NavItem from "./NavItem.jsx";
 import { ROLE_LABELS } from "../data/initialData.js";
 
-export default function Sidebar({ 
-  storeName, sidebarOpen, setSidebar, view, setView, 
-  heldOrdersCount, kitchenQueueCount, lowStockCount, 
+export default function Sidebar({
+  storeName, sidebarOpen, setSidebar, view, setView,
+  heldOrdersCount, kitchenQueueCount, lowStockCount,
   can, currentUser, handleLock, setEodOpen,
-  authUser // <-- We inject the master Auth User here
+  authUser, onOpenHelp
 }) {
   
   // The mathematical lock:
@@ -62,6 +62,22 @@ export default function Sidebar({
         </nav>
 
         <div className="sb-bottom">
+          <button
+            onClick={onOpenHelp}
+            style={{
+              display: "flex", alignItems: "center", gap: "8px",
+              width: "100%", padding: "8px 10px", marginBottom: "8px",
+              background: "none", border: "1px solid var(--border2)",
+              borderRadius: "8px", color: "var(--text-muted, #888)",
+              fontSize: "12px", fontWeight: 600, cursor: "pointer",
+              transition: "border-color .12s, color .12s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--focus-border)"; e.currentTarget.style.color = "var(--text)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border2)"; e.currentTarget.style.color = "var(--text-muted, #888)"; }}
+          >
+            <span style={{ fontSize: "14px" }}>❓</span>
+            {sidebarOpen && <span>Help</span>}
+          </button>
           <div className="user-card">
             <div className={`user-av ${currentUser?.role || "cashier"}`} style={{ background: currentUser?.role === "owner" ? "var(--text)" : currentUser?.role === "manager" ? "#22c55e" : "#3b82f6", color: currentUser?.role === "owner" ? "var(--bg)" : "white" }}>
               {currentUser?.avatar || "?"}

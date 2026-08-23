@@ -31,11 +31,18 @@ import SettingsView from "./components/SettingsView.jsx";
 import PaymentModals from "./components/PaymentModals.jsx";
 import EODReport from "./components/EODReport.jsx";
 import MiscModals from "./components/MiscModals.jsx";
+import OnboardingGuide from "./components/OnboardingGuide.jsx";
+import HelpModal from "./components/HelpModal.jsx";
 
 // ==========================================
 // 1. THE AUTH WRAPPER (The Gatekeeper)
 // ==========================================
 export default function App() {
+  // DEV-ONLY: ?preview=tour shows the onboarding guide without auth (no app data exposed)
+  if (import.meta.env.DEV && new URLSearchParams(window.location.search).get("preview") === "tour") {
+    return <OnboardingGuide onDone={() => {}} />;
+  }
+
   const { user, loading: authLoading, recoveryMode } = useAuth();
 
   if (authLoading) {
@@ -63,6 +70,9 @@ function MainApp({ authUser }) {
   const { products, setProducts, addProduct, updateProduct, deleteProduct, refreshProducts, loading: productsLoading } = useProducts();
   const { transactions, saveTransaction, voidTransaction, refundTransaction, loading: transactionsLoading } = useTransactions();
   const { tier, daysLeft, status, requestUpgrade, limits } = useSubscription();
+
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("ls_tour_done"));
+  const [showHelp, setShowHelp] = useState(false);
 
   // --- TOAST STATE (Defensive Implementation) ---
   const [toast, setToast] = useState(null);
@@ -790,10 +800,16 @@ function MainApp({ authUser }) {
     );
   }
 
+  function dismissTour() {
+    localStorage.setItem("ls_tour_done", "1");
+    setShowOnboarding(false);
+  }
+
   return (
     <>
       <style>{buildCSS(dark)}</style>
-      
+      {showOnboarding && <OnboardingGuide onDone={dismissTour} />}
+      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
       <div style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
         {lockScreen ? (
           <LockScreen 
@@ -810,6 +826,7 @@ function MainApp({ authUser }) {
               can={can} currentUser={currentUser} handleLock={handleLock} 
               setEodOpen={setEodOpen}
               authUser={authUser}
+              onOpenHelp={() => setShowHelp(true)}
             />
 
             <div className="main">
