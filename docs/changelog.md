@@ -65,7 +65,7 @@ Running log of every task, most recent first.
 - `CLAUDE.md` — Section 7: MEDIUM confidence now explicit — propose + stop, wait for confirmation before any Edit/Bash
 - `CLAUDE.md` — Added Section 8: Supabase Query Rules (always await, capture error, no floating queries, update not upsert)
 
-**Commits:** (pending)
+**Commits:** 7de1263
 
 ---
 
