@@ -32,6 +32,22 @@ Running log of every task, most recent first.
 - `src/components/POSView.jsx` — Removed intentional `Math.random() > 0.5` crash grenade in DEV mode
 - `src/App.jsx` — Auth gate bypassed for local dev (to be restored before production)
 
+**Commits:** b6146f8, 96cf53c, 5184a5e
+
+---
+
+## CHG-016 — Purple elimination pass 3: accent-text + kt-num overflow
+
+**Date:** 2026-08-23
+**Type:** Refactor
+**Requested:** Product prices, "Customizable" label, cart notes, totals still purple; kitchen ticket code overflowing badge
+**Decision:** Neutralise `--accent-text` CSS variable to `var(--text)` so all monetary/label uses become neutral in one change; guard `.rtype-btn.active .rt-label` with `var(--ctrl-active-text)` to maintain contrast; fix `.kt-num` with `min-width` + padding instead of fixed width
+
+**Changes:**
+- `src/styles/buildCSS.js` — `--accent-text` changed from `#B0AAFF`/`#6C63FF` to `var(--text)` (neutral for prices, labels, notes, totals, references)
+- `src/styles/buildCSS.js` — `.rtype-btn.active .rt-label` → `var(--ctrl-active-text)` (preserves contrast on inverted bg)
+- `src/styles/buildCSS.js` — `.kt-num` fixed width 34px → `min-width:34px;padding:0 7px;font-size:12px` (badge expands for longer codes)
+
 **Commits:** (pending)
 
 ---

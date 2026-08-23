@@ -21,7 +21,7 @@ export const buildCSS = (dark) => `
   --accent-active:#4C46E0;
   --accent-glow: ${dark?"rgba(108,99,255,.35)":"rgba(108,99,255,.2)"};
   --accent-bg:   ${dark?"rgba(108,99,255,.15)":"rgba(108,99,255,.09)"};
-  --accent-text: ${dark?"#B0AAFF":"#6C63FF"};
+  --accent-text: var(--text);
 
   --green:       #22c55e;
   --green-bg:    ${dark?"rgba(34,197,94,.15)":"rgba(34,197,94,.1)"};
@@ -1087,11 +1087,11 @@ input,select,textarea{font-family:var(--font);}
   border-bottom:1px solid var(--border);
 }
 .kt-num{
-  width:34px;height:34px;border-radius:var(--r-sm);flex-shrink:0;
+  min-width:34px;height:34px;padding:0 7px;border-radius:var(--r-sm);flex-shrink:0;
   background:var(--text);
-  color:var(--bg);font-size:14px;font-weight:900;
+  color:var(--bg);font-size:12px;font-weight:900;
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);
+  font-family:var(--mono);letter-spacing:.5px;
 }
 .kds-ticket.urgent .kt-num{background:var(--amber);}
 .kds-ticket.critical .kt-num{background:var(--red);}
@@ -1341,7 +1341,7 @@ tbody td{padding:12px 18px;font-size:13.5px;}
 .rtype-btn .rt-icon{font-size:22px;margin-bottom:6px;}
 .rtype-btn .rt-label{font-size:13px;font-weight:800;color:var(--text);}
 .rtype-btn .rt-desc{font-size:11px;color:var(--text3);margin-top:2px;}
-.rtype-btn.active .rt-label{color:var(--accent-text);}
+.rtype-btn.active .rt-label{color:var(--ctrl-active-text);}
 
 .refund-items-list{
   background:var(--surface2);border:1px solid var(--border);
