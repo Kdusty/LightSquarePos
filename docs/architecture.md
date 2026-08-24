@@ -128,3 +128,8 @@ Payment confirmed → `addTicket()` → INSERT into `kitchen_tickets` → Realti
 
 ### 5. Auth session persistence
 Supabase client auto-stores session in localStorage. On page reload, `getSession()` returns the cached session without a network call. The `onAuthStateChange` listener handles token refresh, invite flows, and password recovery intercept.
+
+### 6. POS → CRM subscription approval flow
+Store owner submits GCash upgrade in SettingsView → `useSubscription.requestUpgrade()` writes `subscriptions: { status: "pending", gcash_ref, order_code }` → optimistically sets local status to "pending" (drops the paywall immediately) → invokes `notify-payment` Edge Function non-blocking → Edge Function sends HTML email via Resend API linking to crm.lightsquarepos.com → Admin reviews in CRM Pending Payments → Approve sets `status = "active" + expires_at` → POS `useSubscription` picks up the change → store unlocked.
+
+**Sister app:** LightSquare CRM — `crm.lightsquarepos.com` | Local: `/Users/johnvasquez/Documents/COMPANY/LightSquareCRM` | GitHub: Kdusty/LightSquareCRM | Protocol: `LightSquareCRM/CLAUDE.md`
