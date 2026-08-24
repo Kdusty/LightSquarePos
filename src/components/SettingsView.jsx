@@ -9,7 +9,7 @@ export default function SettingsView({
   taxRate, setTaxRate, birInfo, updBir, staff, currentUser,
   openAddStaff, openEditStaff, toggleStaffActive,
   tier, daysLeft, status, upgradeTarget, setUpgradeTarget,
-  gcashRef, setGcashRef, upgradeSubmitted, setUpgradeSubmitted, requestUpgrade,
+  gcashRef, setGcashRef, upgradeSubmitted, setUpgradeSubmitted, upgradeOrderCode, setUpgradeOrderCode, requestUpgrade,
   migrateImagesToStorage, migrationStatus, saveSettings, showToast,
   
   // NEW HARDWARE PROPS
@@ -331,11 +331,19 @@ export default function SettingsView({
                           1. Open GCash → Send Money or Scan QR<br />
                           2. Send <strong>₱{TIER_LIMITS[upgradeTarget]?.price?.toLocaleString()}</strong> to the QR above<br />
                           3. Copy your <strong>GCash reference number</strong><br />
-                          4. Paste it below and submit
+                          4. Paste it below — you'll get an <strong>Order Code</strong> to quote if you need support
                         </div>
                         <label style={{ fontSize: 12, fontWeight: 700, color: "var(--text2)", display: "block", marginBottom: 6 }}>GCash Reference Number</label>
                         <input className="search-input" style={{ width: "100%", marginBottom: 10, fontFamily: "var(--mono)" }} placeholder="e.g. 1234567890" value={gcashRef} onChange={e => setGcashRef(e.target.value)} />
-                        <button className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }} disabled={gcashRef.trim().length < 6} onClick={async () => { await requestUpgrade(upgradeTarget, gcashRef.trim()); setUpgradeSubmitted(true); }}>
+                        <button className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }} disabled={gcashRef.trim().length < 6} onClick={async () => {
+                          try {
+                            const code = await requestUpgrade(upgradeTarget, gcashRef.trim(), storeName);
+                            setUpgradeOrderCode(code);
+                            setUpgradeSubmitted(true);
+                          } catch {
+                            // requestUpgrade logs the error; keep form open so user can retry
+                          }
+                        }}>
                           Submit Payment Confirmation
                         </button>
                       </div>
@@ -346,12 +354,19 @@ export default function SettingsView({
                   <div style={{ border: "1px solid rgba(34,197,94,.3)", borderRadius: "var(--r)", padding: 20, background: "var(--green-bg)", textAlign: "center" }}>
                     <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
                     <div style={{ fontWeight: 800, fontSize: 15, color: "var(--green-text)", marginBottom: 6 }}>Payment submitted!</div>
-                    <div style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.6 }}>
+                    {upgradeOrderCode && (
+                      <div style={{ margin: "12px auto", display: "inline-block", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--r-sm)", padding: "10px 20px" }}>
+                        <div style={{ fontSize: 10, color: "var(--text3)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Your Order Code</div>
+                        <div style={{ fontFamily: "var(--mono)", fontSize: 22, fontWeight: 900, color: "var(--text)", letterSpacing: 2 }}>{upgradeOrderCode}</div>
+                        <div style={{ fontSize: 10, color: "var(--text3)", marginTop: 4 }}>Quote this if you need support</div>
+                      </div>
+                    )}
+                    <div style={{ fontSize: 13, color: "var(--text2)", lineHeight: 1.6, marginTop: 8 }}>
                       Your upgrade request has been received.<br />
-                      We'll verify your payment and activate your plan within <strong>24 hours</strong>.<br />
-                      Reference: <code style={{ fontFamily: "var(--mono)", fontWeight: 700 }}>{gcashRef}</code>
+                      We'll verify your GCash payment and activate your plan within <strong>24 hours</strong>.<br />
+                      GCash ref: <code style={{ fontFamily: "var(--mono)", fontWeight: 700 }}>{gcashRef}</code>
                     </div>
-                    <button className="btn btn-secondary btn-sm" style={{ marginTop: 12 }} onClick={() => { setUpgradeTarget(null); setUpgradeSubmitted(false); }}>Done</button>
+                    <button className="btn btn-secondary btn-sm" style={{ marginTop: 12 }} onClick={() => { setUpgradeTarget(null); setUpgradeSubmitted(false); setUpgradeOrderCode(null); }}>Done</button>
                   </div>
                 )}
                 <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text3)", lineHeight: 1.8 }}>

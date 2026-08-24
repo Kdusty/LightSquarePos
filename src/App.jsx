@@ -223,6 +223,7 @@ function MainApp({ authUser }) {
   const [upgradeTarget, setUpgradeTarget] = useState(null);
   const [gcashRef, setGcashRef] = useState("");
   const [upgradeSubmitted, setUpgradeSubmitted] = useState(false);
+  const [upgradeOrderCode, setUpgradeOrderCode] = useState(null);
 
   // --- ANALYTICS STATE ---
   const [aRange, setARange] = useState("today");
@@ -910,6 +911,7 @@ function MainApp({ authUser }) {
                     status={status} upgradeTarget={upgradeTarget} setUpgradeTarget={setUpgradeTarget} gcashRef={gcashRef}
                     setGcashRef={setGcashRef} upgradeSubmitted={upgradeSubmitted} setUpgradeSubmitted={setUpgradeSubmitted}
                     requestUpgrade={requestUpgrade}
+                    upgradeOrderCode={upgradeOrderCode} setUpgradeOrderCode={setUpgradeOrderCode}
                     migrateImagesToStorage={migrateImagesToStorage} migrationStatus={migrationStatus}
                     showToast={showToast} saveSettings={saveSettings}
                     printerPort={printerPort} connectPrinter={connectPrinter} disconnectPrinter={disconnectPrinter}

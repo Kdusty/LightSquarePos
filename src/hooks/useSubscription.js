@@ -41,25 +41,40 @@ export function useSubscription() {
     load();
   }, []);
 
-  async function requestUpgrade(targetTier, gcashRef) {
+  async function requestUpgrade(targetTier, gcashRef, storeName) {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) return null;
 
-    // Use .update() instead of .upsert() to avoid the unique constraint crash
+    const orderCode = "LS-" + Math.random().toString(36).substr(2, 6).toUpperCase();
+
     const { error } = await supabase
       .from("subscriptions")
       .update({
         tier:       targetTier,
         status:     "pending",
         gcash_ref:  gcashRef,
-        updated_at: new Date().toISOString()
+        order_code: orderCode,
+        updated_at: new Date().toISOString(),
       })
       .eq("owner_id", user.id);
 
     if (error) {
       console.error("Subscription upgrade error:", error);
-      throw error; // Throw it so the frontend can catch it and show a Toast
+      throw error;
     }
+
+    // Fire email notification — non-blocking, ignore errors
+    supabase.functions.invoke("notify-payment", {
+      body: {
+        storeName,
+        plan: targetTier,
+        amount: TIER_LIMITS[targetTier]?.price,
+        gcashRef,
+        orderCode,
+      },
+    }).then(() => {});
+
+    return orderCode;
   }
 
   // We now export the exact limits for the current tier so App.jsx can read them

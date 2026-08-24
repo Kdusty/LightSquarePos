@@ -4,6 +4,22 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-021 — POS → CRM payment submission flow (order code + email notification)
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Complete the POS → CRM payment submission flow: order code display, storeName passed to requestUpgrade, email notification via Edge Function.
+
+**Changes:**
+- `src/hooks/useSubscription.js` — `requestUpgrade` generates unique order code (`LS-XXXXXX`), saves it to `subscriptions.order_code`, invokes `notify-payment` Edge Function non-blocking, returns `orderCode`
+- `src/App.jsx` — added `upgradeOrderCode` / `setUpgradeOrderCode` state; passed both + existing `storeName` to SettingsView
+- `src/components/SettingsView.jsx` — added `upgradeOrderCode`/`setUpgradeOrderCode` props; submit button now captures returned order code; success state shows Order Code prominently in a monospaced badge; step 4 hint updated; Done button resets order code
+- `supabase/functions/notify-payment/index.ts` — new Edge Function (deployed, `verify_jwt: true`); sends HTML email via Resend API with store name, plan, amount, GCash ref, and order code; links to crm.lightsquarepos.com
+
+**Commits:** (pending)
+
+---
+
 ## CHG-020 — Password reset: "Forgot your password?" flow
 
 **Date:** 2026-08-24
@@ -15,7 +31,7 @@ Running log of every task, most recent first.
 - `src/hooks/useAuth.jsx` — added `resetPasswordForEmail(email)` function; exposed in `AuthContext.Provider` value
 - `src/components/LoginScreen.jsx` — added `forgotMode` state; "Forgot your password?" link below password field (sign-in mode only); dedicated reset form with email input, "Send Reset Link" button, success message, and "← Back to Sign In" link
 
-**Commits:** (pending)
+**Commits:** b6d20b4
 
 ---
 
