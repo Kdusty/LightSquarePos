@@ -15,7 +15,6 @@ import { useKitchen } from "./hooks/useKitchen";
 import { usePrinter } from "./hooks/usePrinter.js";
 import { buildReceiptPayload } from "./lib/escpos.js";
 import { todayStr, fmt } from "./data/initialData.js";
-import SuperAdminView from "./components/SuperAdminView.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 
 // --- COMPONENTS ---
@@ -892,9 +891,6 @@ function MainApp({ authUser }) {
                 </button>
                 <div className="topbar-title">
                   {{ pos: "Point of Sale", analytics: "Analytics", transactions: "Transactions", inventory: "Inventory", settings: "Settings" }[view]}
-                  {view === "superadmin" && authUser?.id === "e2f7ca54-3572-4085-b665-96113c8b30da" && (
-                <SuperAdminView showToast={showToast} />
-              )}
                 </div>
                 <div className="topbar-date">{dateStr} · {timeStr}</div>
                 <button className="theme-btn" onClick={() => setDark(d => !d)}>

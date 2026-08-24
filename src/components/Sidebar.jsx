@@ -10,8 +10,6 @@ export default function Sidebar({
 }) {
   
   // The mathematical lock:
-  const isGodMode = authUser?.id === "e2f7ca54-3572-4085-b665-96113c8b30da";
-
   return (
     <aside className={`sidebar${sidebarOpen ? "" : " collapsed"}`}>
       <div className="sb-inner">
@@ -45,20 +43,6 @@ export default function Sidebar({
             {can("settings") && <NavItem icon={<Settings size={16} />} label="Settings" id="settings" active={view} onClick={setView} collapsed={!sidebarOpen} />}
           </div>
 
-          {/* THE VAULT DOOR */}
-          {isGodMode && (
-            <div className="sb-section" style={{ marginTop: 16, paddingTop: 16, borderTop: "1px dashed rgba(239,68,68,.3)" }}>
-              <div className="sb-section-label" style={{ color: "var(--red-text)" }}>System Admin</div>
-              <NavItem 
-                icon={<span style={{ fontSize: 15 }}>🛡️</span>} 
-                label="God Mode" 
-                id="superadmin" 
-                active={view} 
-                onClick={setView} 
-                collapsed={!sidebarOpen} 
-              />
-            </div>
-          )}
         </nav>
 
         <div className="sb-bottom">

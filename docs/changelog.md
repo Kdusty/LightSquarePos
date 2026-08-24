@@ -4,6 +4,27 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-030 — Remove God Mode from POS
+
+**Date:** 2026-08-24
+**Type:** Refactor
+**Requested:** Remove God Mode now that CRM handles subscriber management. Ensure clean flow with no dead code.
+
+**Decision:** God Mode set `status="rejected"` — a status string that exists nowhere else in the system (CRM sets "trial" on reset). It was also a raw UUID list with no store names. CRM supersedes it entirely.
+
+**DB check:** Queried `subscriptions WHERE status = 'rejected'` — 0 rows found. No cleanup needed.
+
+**Changes:**
+- `src/App.jsx` — removed `import SuperAdminView` (line 18)
+- `src/App.jsx` — removed `{view === "superadmin" && ...}` render block with `<SuperAdminView>`
+- `src/components/Sidebar.jsx` — removed `const isGodMode` declaration
+- `src/components/Sidebar.jsx` — removed entire God Mode nav section (`{/* THE VAULT DOOR */}` + `{isGodMode && (...)}`)
+- `src/components/SuperAdminView.jsx` — deleted file
+
+**Commits:** (pending)
+
+---
+
 ## CHG-029 — Tenant isolation audit + device_sessions RLS fix
 
 **Date:** 2026-08-24
