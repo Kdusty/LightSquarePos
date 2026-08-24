@@ -16,7 +16,7 @@ Running log of every task, most recent first.
 - `src/components/SettingsView.jsx` — added `upgradeOrderCode`/`setUpgradeOrderCode` props; submit button now captures returned order code; success state shows Order Code prominently in a monospaced badge; step 4 hint updated; Done button resets order code
 - `supabase/functions/notify-payment/index.ts` — new Edge Function (deployed, `verify_jwt: true`); sends HTML email via Resend API with store name, plan, amount, GCash ref, and order code; links to crm.lightsquarepos.com
 
-**Commits:** (pending)
+**Commits:** dfb370f
 
 ---
 

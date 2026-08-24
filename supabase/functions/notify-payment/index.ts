@@ -35,7 +35,7 @@ serve(async (req) => {
       method: "POST",
       headers: { "Authorization": `Bearer ${RESEND_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: "LightSquare CRM <noreply@lightsquarepos.com>",
+        from: "LightSquare CRM <info@lightsquarepos.com>",
         to: [NOTIFY_EMAIL],
         subject: `[LightSquare] New payment — ${orderCode} · ${storeName ?? "unknown store"}`,
         html,
