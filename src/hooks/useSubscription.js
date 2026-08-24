@@ -6,7 +6,7 @@ export const TIER_LIMITS = {
   trial:   { products: 14,       devices: 1, label: "14-Day Trial", price: 0 },
   starter: { products: Infinity, devices: 1, label: "Starter",      price: 299 },
   growth:  { products: Infinity, devices: 3, label: "Growth",       price: 599 },
-  annual:  { products: Infinity, devices: 1, label: "Annual",       price: 2988 },
+  annual:  { products: Infinity, devices: 8, label: "Annual",       price: 2988 },
 };
 
 export function useSubscription() {

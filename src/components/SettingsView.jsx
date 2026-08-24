@@ -299,7 +299,7 @@ export default function SettingsView({
                 )}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12, marginBottom: 24 }}>
                   {[
-                    { id: "annual", label: "Annual", price: "₱2,988", period: "/yr", subprice: "₱249/mo — save ₱600", color: "var(--amber-text)", bg: "var(--amber-bg)", features: ["Everything in Starter", "₱249/mo effective", "1 device", "Email support"], badge: "Best Value", badgeColor: "var(--amber-text)", badgeBg: "var(--amber-bg)" },
+                    { id: "annual", label: "Annual", price: "₱2,988", period: "/yr", subprice: "₱249/mo — save ₱600", color: "var(--amber-text)", bg: "var(--amber-bg)", features: ["Everything in Starter", "₱249/mo effective", "Up to 8 devices", "Email support"], badge: "Best Value", badgeColor: "var(--amber-text)", badgeBg: "var(--amber-bg)" },
                     { id: "growth", label: "Growth", price: "₱599", period: "/mo", color: "var(--text)", bg: "var(--surface3)", features: ["Everything in Starter", "Up to 3 devices", "Multi-user roles", "Kitchen display"], badge: "Popular", badgeColor: "var(--bg)", badgeBg: "var(--text)" },
                     { id: "starter", label: "Starter", price: "₱299", period: "/mo", color: "var(--green-text)", bg: "var(--green-bg)", features: ["Unlimited products", "Full analytics", "1 device", "Priority support"] },
                   ].map(plan => {
@@ -315,6 +315,7 @@ export default function SettingsView({
                         borderRadius: "var(--r)", padding: 16,
                         background: isCurrent ? plan.bg : isAnchor ? "rgba(245,158,11,.06)" : "var(--surface2)",
                         position: "relative", transition: "all var(--transition)",
+                        display: "flex", flexDirection: "column",
                       }}>
                         {plan.badge && (
                           <div style={{
@@ -331,7 +332,7 @@ export default function SettingsView({
                         {plan.subprice && (
                           <div style={{ fontSize: 11, color: "var(--amber-text)", fontWeight: 700, marginTop: 3 }}>{plan.subprice}</div>
                         )}
-                        <div style={{ margin: "12px 0", display: "flex", flexDirection: "column", gap: 5 }}>
+                        <div style={{ margin: "12px 0", display: "flex", flexDirection: "column", gap: 5, flex: 1 }}>
                           {plan.features.map(f => (
                             <div key={f} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text2)" }}>
                               <span style={{ color: "var(--green-text)", fontSize: 13 }}>✓</span>{f}
