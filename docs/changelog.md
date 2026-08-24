@@ -4,6 +4,25 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-034 — Move Supabase credentials to environment variables
+
+**Date:** 2026-08-24
+**Type:** Config (Frontend)
+**Requested:** Fix Security Rule 3 — `src/lib/supabase.js` was hardcoding Supabase URL and anon key as plain strings committed to git.
+
+**Decision:** Replaced hardcoded strings with `import.meta.env.VITE_SUPABASE_URL` and `import.meta.env.VITE_SUPABASE_ANON_KEY`. Created `.env.local` for local dev (gitignored). Updated `.env.example` to strip out the real credentials and provide placeholder instructions instead.
+
+**Action required:** Set both env vars in Vercel dashboard → Project Settings → Environment Variables before next deploy.
+
+**Changes:**
+- `src/lib/supabase.js` — replaced hardcoded URL + anon key with `import.meta.env.*` references
+- `.env.local` — created (gitignored); holds real credentials for local dev
+- `.env.example` — scrubbed real credentials; now shows placeholder instructions only
+
+**Commits:** (pending)
+
+---
+
 ## CHG-033 — Delete 3 test "My Store" accounts from Supabase
 
 **Date:** 2026-08-24
