@@ -1,0 +1,25 @@
+{
+  "name": "LightSquare POS",
+  "short_name": "LightSquare",
+  "description": "Point of sale for Philippine businesses — cafés, salons, retail shops, and more.",
+  "theme_color": "#0D0D0F",
+  "background_color": "#0D0D0F",
+  "display": "standalone",
+  "orientation": "any",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

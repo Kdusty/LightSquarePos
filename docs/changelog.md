@@ -4,6 +4,44 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-036 — PWA setup + full mobile/tablet responsiveness
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Make the POS app a proper PWA — installable on Android phones, tablets, iPads, and desktops. Ensure the layout is heavily responsive for Philippines users who primarily access on mobile.
+
+**Decision:** Added `vite-plugin-pwa` with Workbox service worker (NetworkFirst for Supabase, CacheFirst for Google Fonts, autoUpdate). Created `manifest.webmanifest` with proper icons. Added full `@media(max-width:640px)` breakpoint that transforms the left sidebar into a fixed bottom tab bar — matching the Android/iOS bottom-nav pattern Philippine users expect. Cart panel stacks below products on phones. Tablet (641–900px) keeps the existing collapsed-icon sidebar via the existing 900px breakpoint.
+
+**Changes:**
+- `public/manifest.webmanifest` — new: PWA manifest (name, icons, theme, standalone display, any orientation)
+- `public/icon-192.png` — new: 192×192 PWA icon generated from lightsquare-logo.png
+- `public/icon-512.png` — new: 512×512 PWA icon (maskable) generated from lightsquare-logo.png
+- `index.html` — added `<link rel="manifest">`, `viewport-fit=cover`, apple-mobile-web-app meta tags
+- `vite.config.js` — added VitePWA plugin with Workbox runtime caching (Supabase NetworkFirst, Google Fonts CacheFirst/StaleWhileRevalidate)
+- `src/styles/buildCSS.js` — added `@media(max-width:640px)`: sidebar → fixed bottom tab bar (58px), pos-layout stacks vertically, cart panel becomes 260px horizontal strip, analytics grids collapse to 1–2 columns, modals go full-width, safe-area-inset padding for notched phones
+
+**Commits:** (pending)
+
+---
+
+## CHG-035 — Website copy and credibility cleanup + initial GitHub push
+
+**Date:** 2026-08-24
+**Type:** Feature (Website — LightSquarePosWeb)
+**Requested:** Remove fake testimonial (Maria Santos / Manila Beans Café) and fake social proof logos from Hero. Fix boring sections/generic icons. Update purple to match POS brand. Fix Annual plan device count. Set up git remote and push website.
+
+**Decision:** Brand color was already correct (#6C63FF = POS --accent, no change needed). Replaced fake testimonial section with honest "Why We Built This" dark section. Replaced fake logo band in Hero with real trust signals. Improved HowItWorks step cards with colour-accented icon containers. Fixed Annual plan "1 Device" → "Up to 8 Devices". Initialised git repo, added GitHub remote, pushed all website files in one commit (14cbb81).
+
+**Changes:**
+- `src/sections/Testimonial.jsx` — removed fake Maria Santos quote; replaced with honest "Why We Built This" founder mission section
+- `src/sections/Hero.jsx` — removed fake logos band (Manila Beans, The Daily Brew, Kanto Cuts, Sugar & Spice, Local Essentials); replaced with honest trust-signal band (trial, no card, setup time, BIR compliance)
+- `src/sections/HowItWorks.jsx` — improved step card design: coloured icon containers, per-step accent colours, better spacing
+- `src/data/pricing.js` — Annual plan "1 Device" → "Up to 8 Devices"
+
+**Commits:** 14cbb81
+
+---
+
 ## CHG-034 — Move Supabase credentials to environment variables
 
 **Date:** 2026-08-24
