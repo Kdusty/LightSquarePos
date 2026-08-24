@@ -4,6 +4,49 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-033 — Delete 3 test "My Store" accounts from Supabase
+
+**Date:** 2026-08-24
+**Type:** Config (Supabase)
+**Requested:** Three test accounts ("My Store") appeared in the CRM subscriber list from earlier manual testing. User confirmed they were safe to delete.
+
+**Decision:** Deleted directly from Supabase via SQL — `DELETE FROM auth.users WHERE id IN (...)`. ON DELETE CASCADE cleaned up all child rows across all public tables automatically.
+
+**Changes:**
+- Supabase — deleted 3 rows from `auth.users` (cascade removed all related `subscriptions`, `store_settings`, `device_sessions`, `products`, `transactions` rows)
+
+**Commits:** n/a — Supabase-only
+
+---
+
+## CHG-032 — Docs: add CRM sister-app cross-reference to POS architecture
+
+**Date:** 2026-08-24
+**Type:** Docs
+**Requested:** Document that POS and CRM are sister apps sharing the same Supabase project. Capture the full POS → CRM approval flow end-to-end so both apps are cross-referenced.
+
+**Changes:**
+- `docs/architecture.md` — added Section 6: POS → CRM approval flow (requestUpgrade → pending status → CRM subscriber list → admin approves → status=active + expires_at); sister app reference block (URL, local path, GitHub)
+
+**Commits:** 0e78a73
+
+---
+
+## CHG-031 — Fix docs/db-schema.md: subscriptions table had 7 missing columns
+
+**Date:** 2026-08-24
+**Type:** Docs
+**Requested:** Audit db-schema.md for accuracy during CRM SubscriberDetail build; discovered subscriptions table was missing key columns.
+
+**Missing columns added:** `started_at`, `approved_at`, `approved_by`, `order_code`, `screenshot_url`, `notes`, `store_id`; `id` type corrected from `integer` to `bigint`.
+
+**Changes:**
+- `docs/db-schema.md` — subscriptions table: added 7 missing columns; corrected `id` type to bigint
+
+**Commits:** b6b473b
+
+---
+
 ## CHG-030 — Remove God Mode from POS
 
 **Date:** 2026-08-24
