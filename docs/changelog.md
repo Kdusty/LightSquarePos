@@ -19,7 +19,7 @@ Running log of every task, most recent first.
 - `.env.local` — created (gitignored); holds real credentials for local dev
 - `.env.example` — scrubbed real credentials; now shows placeholder instructions only
 
-**Commits:** (pending)
+**Commits:** 31d0ae2
 
 ---
 
