@@ -4,6 +4,21 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-020 — Password reset: "Forgot your password?" flow
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Add "Forgot your password?" link to the login screen so users can reset via email
+**Decision:** Added `resetPasswordForEmail` to `useAuth.jsx` using `supabase.auth.resetPasswordForEmail`; added `forgotMode` state to `LoginScreen.jsx` with a dedicated reset form — existing `recoveryMode` flow already handles the redirect back and password update form
+
+**Changes:**
+- `src/hooks/useAuth.jsx` — added `resetPasswordForEmail(email)` function; exposed in `AuthContext.Provider` value
+- `src/components/LoginScreen.jsx` — added `forgotMode` state; "Forgot your password?" link below password field (sign-in mode only); dedicated reset form with email input, "Send Reset Link" button, success message, and "← Back to Sign In" link
+
+**Commits:** (pending)
+
+---
+
 ## CHG-019 — Onboarding: step-by-step interactive tour on first login
 
 **Date:** 2026-08-23
@@ -16,7 +31,7 @@ Running log of every task, most recent first.
 - `src/App.jsx` — import `OnboardingGuide`, added `showOnboarding` state (lazy init from localStorage), added `dismissTour()` helper, mounted overlay in main return above the app shell
 - `public/Interactive Guides SS/` — 12 screenshot assets (step1.png–step12.png) added by user
 
-**Commits:** (pending)
+**Commits:** 8555518
 
 ---
 

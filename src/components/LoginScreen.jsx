@@ -2,9 +2,10 @@ import { useState, useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 
 export default function LoginScreen() {
-  const { signIn, signUp, recoveryMode, updatePassword } = useAuth();
-  
+  const { signIn, signUp, recoveryMode, updatePassword, resetPasswordForEmail } = useAuth();
+
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -87,6 +88,29 @@ export default function LoginScreen() {
       setError(updateError.message);
     }
     setLoading(false);
+  };
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccessMsg(null);
+
+    const emailVal = emailRef.current?.value || email;
+    if (!emailVal) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    setLoading(true);
+    const { error: resetError } = await resetPasswordForEmail(emailVal);
+    setLoading(false);
+
+    if (resetError) {
+      setError(resetError.message);
+    } else {
+      setSuccessMsg("Check your email — a password reset link is on its way. It may take a minute or two.");
+      setEmail("");
+    }
   };
 
   return (
@@ -238,6 +262,19 @@ export default function LoginScreen() {
           margin-left: 6px;
         }
         .ls-login-link:hover { text-decoration: underline; }
+
+        .ls-forgot-link {
+          display: block;
+          text-align: right;
+          font-size: 12px;
+          color: #7a7a9a;
+          background: none;
+          border: none;
+          cursor: pointer;
+          margin-top: 6px;
+          padding: 0;
+        }
+        .ls-forgot-link:hover { color: rgba(255,255,255,0.7); text-decoration: underline; }
       `}</style>
 
       <div className="ls-login-root">
@@ -273,6 +310,39 @@ export default function LoginScreen() {
                 <button className="ls-login-btn" type="submit" disabled={loading}>{loading ? "Updating..." : "Save Password & Enter"}</button>
               </form>
             </>
+          ) : forgotMode ? (
+            <>
+              <p className="ls-login-heading">Reset Password</p>
+              <p className="ls-login-sub">Enter your email and we'll send you a reset link.</p>
+
+              {successMsg && <div className="ls-login-success">{successMsg}</div>}
+
+              {!successMsg && (
+                <form onSubmit={handleForgotPassword} noValidate>
+                  <div className="ls-login-field">
+                    <label className="ls-login-label">Email</label>
+                    <input ref={emailRef} className="ls-login-input" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" required disabled={loading} />
+                  </div>
+
+                  {error && <div className="ls-login-error">{error}</div>}
+
+                  <button className="ls-login-btn" type="submit" disabled={loading}>
+                    {loading ? "Sending…" : "Send Reset Link"}
+                  </button>
+                </form>
+              )}
+
+              <div className="ls-login-footer">
+                <button
+                  className="ls-login-link"
+                  onClick={() => { setForgotMode(false); setError(null); setSuccessMsg(null); setEmail(""); }}
+                  disabled={loading}
+                  style={{ marginLeft: 0 }}
+                >
+                  ← Back to Sign In
+                </button>
+              </div>
+            </>
           ) : (
             <>
               <p className="ls-login-heading">{isSignUpMode ? "Create an Account" : "Welcome back"}</p>
@@ -289,6 +359,11 @@ export default function LoginScreen() {
                 <div className="ls-login-field">
                   <label className="ls-login-label">Password</label>
                   <input ref={passwordRef} className="ls-login-input" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} autoComplete={isSignUpMode ? "new-password" : "current-password"} required disabled={loading} />
+                  {!isSignUpMode && (
+                    <button type="button" className="ls-forgot-link" onClick={() => { setForgotMode(true); setError(null); setSuccessMsg(null); }} disabled={loading}>
+                      Forgot your password?
+                    </button>
+                  )}
                 </div>
 
                 {isSignUpMode && (
@@ -307,8 +382,8 @@ export default function LoginScreen() {
 
               <div className="ls-login-footer">
                 {isSignUpMode ? "Already have an account?" : "Don't have an account?"}
-                <button 
-                  className="ls-login-link" 
+                <button
+                  className="ls-login-link"
                   onClick={() => {
                     setIsSignUpMode(!isSignUpMode);
                     setError(null);
