@@ -4,6 +4,22 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-027 — Error monitoring via GlitchTip
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Wire in error monitoring so production errors are tracked automatically.
+
+**Decision:** GlitchTip (app.glitchtip.com/lightsquarepos) with `@sentry/react` SDK — Sentry-compatible, self-hosted, free tier. Project: LightSquarePos, Platform: React, Team: lightsquarepos. `Sentry.init()` added to entry point before app mount so all unhandled exceptions and promise rejections are captured automatically.
+
+**Changes:**
+- `package.json` / `package-lock.json` — added `@sentry/react`
+- `src/main.jsx` — `Sentry.init()` called before `createRoot` with GlitchTip DSN, `tracesSampleRate: 0.01`, `autoSessionTracking: false`
+
+**Commits:** (pending)
+
+---
+
 ## CHG-026 — Remove dead code: src/lib/permissions.js
 
 **Date:** 2026-08-24
@@ -15,7 +31,7 @@ Running log of every task, most recent first.
 **Changes:**
 - `src/lib/permissions.js` — deleted
 
-**Commits:** (pending)
+**Commits:** b9df330
 
 ---
 
