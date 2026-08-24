@@ -63,6 +63,9 @@ export function useSubscription() {
       throw error;
     }
 
+    // Optimistically unblock the paywall so the user gets provisional access immediately
+    setStatus("pending");
+
     // Fire email notification — non-blocking, ignore errors
     supabase.functions.invoke("notify-payment", {
       body: {

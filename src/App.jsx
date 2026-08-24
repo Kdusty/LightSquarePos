@@ -33,6 +33,7 @@ import EODReport from "./components/EODReport.jsx";
 import MiscModals from "./components/MiscModals.jsx";
 import OnboardingGuide from "./components/OnboardingGuide.jsx";
 import HelpModal from "./components/HelpModal.jsx";
+import TrialExpiredPaywall from "./components/TrialExpiredPaywall.jsx";
 
 // ==========================================
 // 1. THE AUTH WRAPPER (The Gatekeeper)
@@ -69,7 +70,7 @@ function MainApp({ authUser }) {
   const { staff, addStaff, updateStaff, toggleStaffActive, loading: staffLoading } = useStaff();
   const { products, setProducts, addProduct, updateProduct, deleteProduct, refreshProducts, loading: productsLoading } = useProducts();
   const { transactions, saveTransaction, voidTransaction, refundTransaction, loading: transactionsLoading } = useTransactions();
-  const { tier, daysLeft, status, requestUpgrade, limits } = useSubscription();
+  const { tier, daysLeft, status, loading: subLoading, requestUpgrade, limits } = useSubscription();
 
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("ls_tour_done"));
   const [showHelp, setShowHelp] = useState(false);
@@ -793,11 +794,21 @@ function MainApp({ authUser }) {
     showToast(errors.length === 0 ? "Optimization Complete!" : "Optimization finished with errors.", errors.length === 0 ? "success" : "error");
   };
 
-  if (staffLoading || productsLoading || transactionsLoading) {
+  if (staffLoading || productsLoading || transactionsLoading || subLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--surface)', color: 'var(--text)', fontSize: '16px', fontWeight: 600 }}>
         Loading LightSquare Data...
       </div>
+    );
+  }
+
+  const trialExpired = tier === "trial" && daysLeft !== null && daysLeft === 0 && status !== "pending" && status !== "active";
+  if (trialExpired) {
+    return (
+      <>
+        <style>{buildCSS(false)}</style>
+        <TrialExpiredPaywall storeName={storeName} requestUpgrade={requestUpgrade} />
+      </>
     );
   }
 

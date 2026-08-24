@@ -4,6 +4,23 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-022 — Trial expiry paywall
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Block access to the POS when the 14-day trial expires; force upgrade to continue.
+
+**Decision:** Paywall blocks when `tier === "trial" && daysLeft === 0 && status !== "pending"`. After submission, `requestUpgrade` optimistically sets `status = "pending"` locally so the wall drops immediately — user gets provisional access while admin approves. Dark mode inherits from app CSS.
+
+**Changes:**
+- `src/components/TrialExpiredPaywall.jsx` — new full-screen paywall: plan picker, GCash QR payment form, order code success screen
+- `src/hooks/useSubscription.js` — `requestUpgrade` now calls `setStatus("pending")` after a successful DB write (optimistic unblock); also exports `loading`
+- `src/App.jsx` — imports `TrialExpiredPaywall`; destructures `subLoading` from `useSubscription` and adds to loading gate; inserts `trialExpired` check before the main return
+
+**Commits:** (pending)
+
+---
+
 ## CHG-021 — POS → CRM payment submission flow (order code + email notification)
 
 **Date:** 2026-08-24
