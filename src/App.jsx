@@ -148,7 +148,7 @@ function MainApp({ authUser }) {
   };
 
   // --- GLOBAL UI STATE ---
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [lockScreen, setLockScreen] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const [sidebarOpen, setSidebar] = useState(true);
