@@ -4,6 +4,20 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-023 — Pricing psychology: anchoring, loss framing, urgency nudges
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Apply pricing psychology principles from slides — price anchoring, annual default, loss framing, paywall timing.
+
+**Changes:**
+- `src/components/SettingsView.jsx` — plan order changed to Annual → Growth → Starter (anchor with highest value first); Annual gets "Best Value" badge + amber border highlight + "₱249/mo — save ₱600" subprice; button copy shifts to "Keep selling →" (≤7 days) or "Don't lose access →" (≤3 days); urgency banner injected above plan cards when trial ≤7 days
+- `src/App.jsx` — persistent clickable strip above topbar when trial ≤7 days; red at ≤3 days, amber otherwise; clicking navigates to Settings
+
+**Commits:** (pending)
+
+---
+
 ## CHG-022 — Trial expiry paywall
 
 **Date:** 2026-08-24
@@ -17,7 +31,7 @@ Running log of every task, most recent first.
 - `src/hooks/useSubscription.js` — `requestUpgrade` now calls `setStatus("pending")` after a successful DB write (optimistic unblock); also exports `loading`
 - `src/App.jsx` — imports `TrialExpiredPaywall`; destructures `subLoading` from `useSubscription` and adds to loading gate; inserts `trialExpired` check before the main return
 
-**Commits:** (pending)
+**Commits:** ef3c1fb
 
 ---
 

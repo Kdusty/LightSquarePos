@@ -842,6 +842,20 @@ function MainApp({ authUser }) {
             />
 
             <div className="main">
+              {tier === "trial" && daysLeft !== null && daysLeft > 0 && daysLeft <= 7 && (
+                <div
+                  onClick={() => setView("settings")}
+                  style={{
+                    background: daysLeft <= 3 ? "var(--red-text)" : "var(--amber-text)",
+                    color: "#fff", fontSize: 12, fontWeight: 700,
+                    textAlign: "center", padding: "6px 12px", cursor: "pointer",
+                    letterSpacing: 0.2,
+                  }}
+                >
+                  {daysLeft === 1 ? "⚠️ Last day of your trial — " : `⚠️ ${daysLeft} days left — `}
+                  <span style={{ textDecoration: "underline" }}>upgrade now to keep selling</span>
+                </div>
+              )}
               <header className="topbar">
                 <button className="sb-toggle" onClick={() => setSidebar(v => !v)} title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}>
                   {sidebarOpen ? <ChevronLeft size={15} strokeWidth={2.5} /> : <ChevronRight size={15} strokeWidth={2.5} />}

@@ -279,19 +279,58 @@ export default function SettingsView({
                     </div>
                   </div>
                 )}
+                {tier === "trial" && daysLeft !== null && daysLeft <= 7 && daysLeft > 0 && (
+                  <div style={{
+                    marginBottom: 18, padding: "12px 16px", borderRadius: "var(--r)",
+                    background: daysLeft <= 3 ? "rgba(239,68,68,.1)" : "rgba(245,158,11,.1)",
+                    border: `1px solid ${daysLeft <= 3 ? "rgba(239,68,68,.3)" : "rgba(245,158,11,.3)"}`,
+                    display: "flex", alignItems: "center", gap: 10,
+                  }}>
+                    <span style={{ fontSize: 18 }}>{daysLeft <= 3 ? "🚨" : "⚠️"}</span>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: daysLeft <= 3 ? "var(--red-text)" : "var(--amber-text)" }}>
+                        {daysLeft === 1 ? "Last day of your trial" : `${daysLeft} days left in your trial`}
+                      </div>
+                      <div style={{ fontSize: 12, color: "var(--text2)", marginTop: 2 }}>
+                        Upgrade now to keep your products, sales history, and analytics.
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12, marginBottom: 24 }}>
                   {[
+                    { id: "annual", label: "Annual", price: "₱2,988", period: "/yr", subprice: "₱249/mo — save ₱600", color: "var(--amber-text)", bg: "var(--amber-bg)", features: ["Everything in Starter", "₱249/mo effective", "1 device", "Email support"], badge: "Best Value", badgeColor: "var(--amber-text)", badgeBg: "var(--amber-bg)" },
+                    { id: "growth", label: "Growth", price: "₱599", period: "/mo", color: "var(--text)", bg: "var(--surface3)", features: ["Everything in Starter", "Up to 3 devices", "Multi-user roles", "Kitchen display"], badge: "Popular", badgeColor: "var(--bg)", badgeBg: "var(--text)" },
                     { id: "starter", label: "Starter", price: "₱299", period: "/mo", color: "var(--green-text)", bg: "var(--green-bg)", features: ["Unlimited products", "Full analytics", "1 device", "Priority support"] },
-                    { id: "growth", label: "Growth", price: "₱599", period: "/mo", color: "var(--text)", bg: "var(--surface3)", features: ["Everything in Starter", "Up to 3 devices", "Multi-user roles", "Kitchen display"], badge: "Popular" },
-                    { id: "annual", label: "Annual", price: "₱2,988", period: "/yr", color: "var(--amber-text)", bg: "var(--amber-bg)", features: ["Starter features", "Save ₱600/year", "1 device", "Email support"] },
                   ].map(plan => {
                     const isCurrent = tier === plan.id;
                     const isPending = status === "pending" && tier === plan.id;
+                    const isAnchor = plan.id === "annual";
+                    const upgradeCta = daysLeft !== null && daysLeft <= 3 ? "Don't lose access →"
+                      : daysLeft !== null && daysLeft <= 7 ? "Keep selling →"
+                      : "Upgrade →";
                     return (
-                      <div key={plan.id} style={{ border: `2px solid ${isCurrent ? "var(--focus-border)" : "var(--border)"}`, borderRadius: "var(--r)", padding: 16, background: isCurrent ? plan.bg : "var(--surface2)", position: "relative", transition: "all var(--transition)" }}>
-                        {plan.badge && <div style={{ position: "absolute", top: -10, right: 12, background: "var(--text)", color: "var(--bg)", fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 99 }}>{plan.badge}</div>}
+                      <div key={plan.id} style={{
+                        border: `2px solid ${isCurrent ? "var(--focus-border)" : isAnchor && !isCurrent ? "var(--amber-text)" : "var(--border)"}`,
+                        borderRadius: "var(--r)", padding: 16,
+                        background: isCurrent ? plan.bg : isAnchor ? "rgba(245,158,11,.06)" : "var(--surface2)",
+                        position: "relative", transition: "all var(--transition)",
+                      }}>
+                        {plan.badge && (
+                          <div style={{
+                            position: "absolute", top: -10, right: 12,
+                            background: plan.badgeBg || "var(--text)", color: plan.badgeColor || "var(--bg)",
+                            fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 99,
+                            border: plan.id === "annual" ? "1px solid var(--amber-text)" : "none",
+                          }}>{plan.badge}</div>
+                        )}
                         <div style={{ fontWeight: 800, fontSize: 14, color: plan.color, marginBottom: 4 }}>{plan.label}</div>
-                        <div style={{ fontFamily: "var(--mono)", fontSize: 22, fontWeight: 900, color: "var(--text)", lineHeight: 1 }}>{plan.price}<span style={{ fontSize: 12, fontWeight: 400, color: "var(--text3)" }}>{plan.period}</span></div>
+                        <div style={{ fontFamily: "var(--mono)", fontSize: 22, fontWeight: 900, color: "var(--text)", lineHeight: 1 }}>
+                          {plan.price}<span style={{ fontSize: 12, fontWeight: 400, color: "var(--text3)" }}>{plan.period}</span>
+                        </div>
+                        {plan.subprice && (
+                          <div style={{ fontSize: 11, color: "var(--amber-text)", fontWeight: 700, marginTop: 3 }}>{plan.subprice}</div>
+                        )}
                         <div style={{ margin: "12px 0", display: "flex", flexDirection: "column", gap: 5 }}>
                           {plan.features.map(f => (
                             <div key={f} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text2)" }}>
@@ -304,7 +343,7 @@ export default function SettingsView({
                           : isPending
                             ? <div style={{ textAlign: "center", fontSize: 12, fontWeight: 700, color: "var(--amber-text)", padding: "6px 0" }}>⏳ Pending approval</div>
                             : <button className="btn btn-primary btn-sm" style={{ width: "100%", justifyContent: "center", marginTop: 4 }} onClick={() => { setUpgradeTarget(plan.id); setGcashRef(""); setUpgradeSubmitted(false); }}>
-                              Upgrade →
+                              {upgradeCta}
                             </button>
                         }
                       </div>
