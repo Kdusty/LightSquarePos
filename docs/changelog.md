@@ -4,6 +4,23 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-029 — Tenant isolation audit + device_sessions RLS fix
+
+**Date:** 2026-08-24
+**Type:** Fix (Config — Supabase)
+**Requested:** Full tenant isolation audit — ensure no data breach between customers.
+
+**Audit result:** All 8 public tables have RLS enabled. Every table enforces `owner_id = auth.uid()` on all operations. `checkout_cart` RPC double-checks `owner_id = auth.uid()` on both the row lock and the update. `is_super_admin()` and `handle_new_user()` are SECURITY DEFINER with fixed search_path. One misconfiguration found:
+
+**Issue fixed:** `device_sessions` policy `owner_device_sessions` had role `{public}` instead of `{authenticated}`. Unauthenticated requests could attempt queries (no data exposed in practice due to NULL comparison, but violates least-privilege and could be an attack surface on JWT edge cases).
+
+**Changes:**
+- Supabase migration `fix_device_sessions_policy_role` — dropped and recreated `owner_device_sessions` policy with `TO authenticated` instead of `TO public`
+
+**Commits:** n/a — Supabase-only migration
+
+---
+
 ## CHG-028 — Fix Annual plan device limit and upgrade button alignment
 
 **Date:** 2026-08-24
