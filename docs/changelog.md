@@ -4,6 +4,20 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-028 — Fix Annual plan device limit and upgrade button alignment
+
+**Date:** 2026-08-24
+**Type:** Fix
+**Requested:** Annual plan showed "1 device" but should allow 8. Growth card Upgrade button was misaligned vs other cards.
+
+**Changes:**
+- `src/hooks/useSubscription.js` — `TIER_LIMITS.annual.devices`: 1 → 8 (enforced limit)
+- `src/components/SettingsView.jsx` — Annual feature text: "1 device" → "Up to 8 devices"; plan cards now `display: flex, flexDirection: column` with `flex: 1` on features so Upgrade button always pins to the bottom of every card
+
+**Commits:** 81ddc93
+
+---
+
 ## CHG-027 — Error monitoring via GlitchTip
 
 **Date:** 2026-08-24
