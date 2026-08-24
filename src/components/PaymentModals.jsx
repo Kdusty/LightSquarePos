@@ -3,7 +3,8 @@ import { fmt } from "../data/initialData.js";
 
 export default function PaymentModals({
   modal, setModal, total, cashAmt, setCashAmt, confirmPayment,
-  gcashQR, lastTxn, viewTxn, setViewTxn, birInfo, storeName, currentUser, taxRate, showToast
+  gcashQR, lastTxn, viewTxn, setViewTxn, birInfo, storeName, currentUser, taxRate, showToast,
+  isOnline,
 }) {
   // If we are viewing a historical transaction from the Transactions Tab, 
   // we force the receipt modal to render using the viewTxn data.
@@ -50,6 +51,12 @@ export default function PaymentModals({
         {modal === "gcash" && !isHistoricalView && (
           <>
             <div className="modal-head"><h2>GCash Payment</h2><button className="modal-x" onClick={() => setModal(null)}><X size={15}/></button></div>
+            {isOnline === false && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "rgba(239,68,68,.1)", border: "1px solid rgba(239,68,68,.3)", borderRadius: 8, margin: "0 0 12px", fontSize: 13, color: "var(--red-text, #ef4444)" }}>
+                <AlertTriangle size={14} style={{ flexShrink: 0 }} />
+                No internet — GCash requires a connection. Switch to Cash or reconnect.
+              </div>
+            )}
             <div className="gcash-header"><h3>Scan to Pay</h3><div className="gamt">{fmt(total)}</div></div>
             <div className="gcash-qr-area">
               {gcashQR ? <img src={gcashQR} alt="GCash QR"/> : <div className="no-qr"><CreditCard size={36} strokeWidth={1}/><span>No QR uploaded</span></div>}
@@ -61,7 +68,7 @@ export default function PaymentModals({
             </div>
             <div className="modal-actions">
               <button className="btn btn-secondary" onClick={() => setModal(null)}>Cancel</button>
-              <button className="btn btn-primary" onClick={confirmPayment}><CheckCircle size={15}/>Payment Received</button>
+              <button className="btn btn-primary" disabled={isOnline === false} onClick={confirmPayment}><CheckCircle size={15}/>Payment Received</button>
             </div>
           </>
         )}

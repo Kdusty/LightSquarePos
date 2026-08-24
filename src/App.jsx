@@ -398,6 +398,12 @@ function MainApp({ authUser }) {
       showToast(`Offline Mode: Payment (${payMethod}) saved locally.`);
     };
 
+    // ── GCash OFFLINE BLOCK — GCash requires real-time network verification ──
+    if (payMethod === "GCash" && !isOnline) {
+      showToast("GCash requires an internet connection. Switch to Cash or reconnect.", "error");
+      return;
+    }
+
     // ── STRICT OFFLINE BRANCH ──
     if (!isOnline) {
       await executeOfflineCheckout();
@@ -412,6 +418,10 @@ function MainApp({ authUser }) {
 
       if (error) {
         if (error.message?.includes("Failed to fetch") || error.message?.includes("Network")) {
+          if (payMethod === "GCash") {
+            showToast("GCash payment failed — no network. Switch to Cash or retry when online.", "error");
+            return;
+          }
           console.warn("Browser reported online, but fetch failed. Forcing offline checkout.");
           await executeOfflineCheckout();
           return;
@@ -428,6 +438,10 @@ function MainApp({ authUser }) {
       }
     } catch (err) {
       if (err.message?.includes("Failed to fetch") || err.message?.includes("Network")) {
+        if (payMethod === "GCash") {
+          showToast("GCash payment failed — no network. Switch to Cash or retry when online.", "error");
+          return;
+        }
         console.warn("Fetch threw network error. Forcing offline checkout.");
         await executeOfflineCheckout();
         return;
@@ -967,6 +981,7 @@ function MainApp({ authUser }) {
             confirmPayment={confirmPayment} gcashQR={gcashQR} lastTxn={lastTxn} 
             viewTxn={viewTxn} setViewTxn={setViewTxn}
             birInfo={birInfo} storeName={storeName} currentUser={currentUser} taxRate={taxRate} showToast={showToast}
+            isOnline={isOnline}
           />
           
           <EODReport 

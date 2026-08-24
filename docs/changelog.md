@@ -4,6 +4,20 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-025 — GCash offline block
+
+**Date:** 2026-08-24
+**Type:** Fix
+**Requested:** Block GCash payments when device is offline. GCash requires real-time QR scan confirmation — queuing it offline produces phantom transactions.
+
+**Changes:**
+- `src/App.jsx` — `confirmPayment`: added primary guard before offline branch (`payMethod === "GCash" && !isOnline` → toast + return); added same guard in both network-error fallback paths so GCash never reaches `executeOfflineCheckout`; passes `isOnline` to `PaymentModals`
+- `src/components/PaymentModals.jsx` — accepts `isOnline` prop; GCash modal shows red warning banner when offline; "Payment Received" button disabled when `isOnline === false`
+
+**Commits:** (pending)
+
+---
+
 ## CHG-024 — Device limit enforcement
 
 **Date:** 2026-08-24
@@ -18,7 +32,7 @@ Running log of every task, most recent first.
 - `src/components/DeviceLimitScreen.jsx` — new block screen: shows tier + active count, "Use this device only" button, inline Growth upgrade form with GCash payment
 - `src/App.jsx` — imports hook + component; adds `deviceLoading` to loading gate; renders `DeviceLimitScreen` when `!deviceAllowed`
 
-**Commits:** (pending)
+**Commits:** 598eb90
 
 ---
 
