@@ -16,7 +16,7 @@ Running log of every task, most recent first.
 - `package.json` / `package-lock.json` — added `@sentry/react`
 - `src/main.jsx` — `Sentry.init()` called before `createRoot` with GlitchTip DSN, `tracesSampleRate: 0.01`, `autoSessionTracking: false`
 
-**Commits:** (pending)
+**Commits:** c0d1372
 
 ---
 
@@ -45,7 +45,7 @@ Running log of every task, most recent first.
 - `src/App.jsx` — `confirmPayment`: added primary guard before offline branch (`payMethod === "GCash" && !isOnline` → toast + return); added same guard in both network-error fallback paths so GCash never reaches `executeOfflineCheckout`; passes `isOnline` to `PaymentModals`
 - `src/components/PaymentModals.jsx` — accepts `isOnline` prop; GCash modal shows red warning banner when offline; "Payment Received" button disabled when `isOnline === false`
 
-**Commits:** (pending)
+**Commits:** 0cc0d76
 
 ---
 
@@ -77,7 +77,7 @@ Running log of every task, most recent first.
 - `src/components/SettingsView.jsx` — plan order changed to Annual → Growth → Starter (anchor with highest value first); Annual gets "Best Value" badge + amber border highlight + "₱249/mo — save ₱600" subprice; button copy shifts to "Keep selling →" (≤7 days) or "Don't lose access →" (≤3 days); urgency banner injected above plan cards when trial ≤7 days
 - `src/App.jsx` — persistent clickable strip above topbar when trial ≤7 days; red at ≤3 days, amber otherwise; clicking navigates to Settings
 
-**Commits:** (pending)
+**Commits:** aeb46c1
 
 ---
 
@@ -110,7 +110,7 @@ Running log of every task, most recent first.
 - `src/components/SettingsView.jsx` — added `upgradeOrderCode`/`setUpgradeOrderCode` props; submit button now captures returned order code; success state shows Order Code prominently in a monospaced badge; step 4 hint updated; Done button resets order code
 - `supabase/functions/notify-payment/index.ts` — new Edge Function (deployed, `verify_jwt: true`); sends HTML email via Resend API with store name, plan, amount, GCash ref, and order code; links to crm.lightsquarepos.com
 
-**Commits:** dfb370f
+**Commits:** dfb370f, b2002ed
 
 ---
 
