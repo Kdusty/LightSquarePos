@@ -34,6 +34,8 @@ import MiscModals from "./components/MiscModals.jsx";
 import OnboardingGuide from "./components/OnboardingGuide.jsx";
 import HelpModal from "./components/HelpModal.jsx";
 import TrialExpiredPaywall from "./components/TrialExpiredPaywall.jsx";
+import DeviceLimitScreen from "./components/DeviceLimitScreen.jsx";
+import { useDeviceSession } from "./hooks/useDeviceSession.js";
 
 // ==========================================
 // 1. THE AUTH WRAPPER (The Gatekeeper)
@@ -71,6 +73,7 @@ function MainApp({ authUser }) {
   const { products, setProducts, addProduct, updateProduct, deleteProduct, refreshProducts, loading: productsLoading } = useProducts();
   const { transactions, saveTransaction, voidTransaction, refundTransaction, loading: transactionsLoading } = useTransactions();
   const { tier, daysLeft, status, loading: subLoading, requestUpgrade, limits } = useSubscription();
+  const { allowed: deviceAllowed, activeCount: deviceCount, loading: deviceLoading, forceUseThisDevice } = useDeviceSession(limits.devices, !subLoading);
 
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("ls_tour_done"));
   const [showHelp, setShowHelp] = useState(false);
@@ -794,7 +797,7 @@ function MainApp({ authUser }) {
     showToast(errors.length === 0 ? "Optimization Complete!" : "Optimization finished with errors.", errors.length === 0 ? "success" : "error");
   };
 
-  if (staffLoading || productsLoading || transactionsLoading || subLoading) {
+  if (staffLoading || productsLoading || transactionsLoading || subLoading || deviceLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--surface)', color: 'var(--text)', fontSize: '16px', fontWeight: 600 }}>
         Loading LightSquare Data...
@@ -808,6 +811,19 @@ function MainApp({ authUser }) {
       <>
         <style>{buildCSS(false)}</style>
         <TrialExpiredPaywall storeName={storeName} requestUpgrade={requestUpgrade} />
+      </>
+    );
+  }
+
+  if (!deviceAllowed) {
+    return (
+      <>
+        <style>{buildCSS(false)}</style>
+        <DeviceLimitScreen
+          tier={tier} activeCount={deviceCount} deviceLimit={limits.devices}
+          storeName={storeName} requestUpgrade={requestUpgrade}
+          forceUseThisDevice={forceUseThisDevice}
+        />
       </>
     );
   }

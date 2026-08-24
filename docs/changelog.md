@@ -4,6 +4,24 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-024 — Device limit enforcement
+
+**Date:** 2026-08-24
+**Type:** Feature
+**Requested:** Enforce per-tier device limits (trial/starter/annual = 1, growth = 3). Currently unenforced.
+
+**Decision:** Track active browsers via `device_sessions` table with a 60s heartbeat and 3-minute TTL. Same browser = same device (localStorage UUID). If active session count exceeds tier limit, show a full-screen block with two options: "Use this device only" (kicks other sessions) or upgrade to Growth.
+
+**Changes:**
+- Supabase migration `create_device_sessions` — new table `device_sessions(id, owner_id, device_id, last_seen, created_at)` with UNIQUE(owner_id, device_id), RLS, and index on (owner_id, last_seen)
+- `src/hooks/useDeviceSession.js` — new hook: get/create localStorage device_id, upsert on mount, 60s heartbeat, count active sessions within 3-min TTL, expose `forceUseThisDevice()` to kick other sessions
+- `src/components/DeviceLimitScreen.jsx` — new block screen: shows tier + active count, "Use this device only" button, inline Growth upgrade form with GCash payment
+- `src/App.jsx` — imports hook + component; adds `deviceLoading` to loading gate; renders `DeviceLimitScreen` when `!deviceAllowed`
+
+**Commits:** (pending)
+
+---
+
 ## CHG-023 — Pricing psychology: anchoring, loss framing, urgency nudges
 
 **Date:** 2026-08-24
