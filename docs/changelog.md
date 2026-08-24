@@ -4,6 +4,21 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-026 — Remove dead code: src/lib/permissions.js
+
+**Date:** 2026-08-24
+**Type:** Refactor
+**Requested:** Delete unused dead code. `src/lib/permissions.js` is imported nowhere and has zero effect — all permission logic lives in the inline `can()` function in `App.jsx:254`.
+
+**Decision:** Confirmed via grep — zero references to "permissions" across all `.js`/`.jsx` files in `src/`. Safe to delete.
+
+**Changes:**
+- `src/lib/permissions.js` — deleted
+
+**Commits:** (pending)
+
+---
+
 ## CHG-025 — GCash offline block
 
 **Date:** 2026-08-24
