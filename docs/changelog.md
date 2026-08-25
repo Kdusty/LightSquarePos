@@ -4,6 +4,25 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-038 — Email receipt: digital fallback for iOS / no-printer users
+
+**Date:** 2026-08-25
+**Type:** Feature
+**Requested:** iOS blocks Web Serial API entirely, so thermal printing is unavailable for iPhone/Safari users. Need a digital receipt fallback so cashiers can send a receipt to a customer's email after any transaction.
+
+**Decision:** Added a Supabase Edge Function (`send-receipt-email`) backed by the existing Resend API key and verified `info@lightsquarepos.com` sender. Added an "Email" button to the receipt modal (post-payment and historical transaction view) that expands an inline email input row. On send, calls `supabase.functions.invoke("send-receipt-email")` and toasts success/failure. No new secrets required — reuses `RESEND_API_KEY` already set for `notify-payment`.
+
+**Changes:**
+- `supabase/functions/send-receipt-email/index.ts` — new Deno edge function: accepts `{ to, txn, storeName, birInfo }`, builds BIR-compliant HTML email (dark header, items table, totals, VAT breakdown), sends via Resend, CORS headers for browser invoke
+- `src/components/PaymentModals.jsx` — added `useState`, `useEffect`, `Mail`, `supabase` imports; added `showEmail`, `emailInput`, `emailSending`, `emailSent` state; `sendReceiptEmail()` async function; "Email" button in `receipt-actions`; collapsible `receipt-email-row` input + Send button below action buttons
+- `src/styles/buildCSS.js` — added `.receipt-email-row` flex row style
+
+**Deployed:** Edge function `send-receipt-email` deployed to Supabase project `rjgbnxaahmfyaasyqirp` (status: ACTIVE)
+
+**Commits:** (pending)
+
+---
+
 ## CHG-037 — Mobile cart: replace strip with slide-up bottom sheet + FAB
 
 **Date:** 2026-08-25

@@ -1575,6 +1575,7 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
 }
 .print-btn:hover{border-color:var(--border2);color:var(--text);background:var(--surface3);}
 .print-btn svg{flex-shrink:0;}
+.receipt-email-row{display:flex;gap:8px;margin-top:8px;align-items:center;}
 .or-success-bar{
   display:flex;align-items:center;gap:12px;
   background:var(--green-bg);border:1px solid rgba(34,197,94,.3);

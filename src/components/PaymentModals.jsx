@@ -1,5 +1,7 @@
-import { X, Printer, AlertTriangle, CheckCircle, CreditCard } from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, Printer, AlertTriangle, CheckCircle, CreditCard, Mail } from "lucide-react";
 import { fmt } from "../data/initialData.js";
+import { supabase } from "../lib/supabase.js";
 
 export default function PaymentModals({
   modal, setModal, total, cashAmt, setCashAmt, confirmPayment,
@@ -11,6 +13,37 @@ export default function PaymentModals({
   const isHistoricalView = !!viewTxn;
   const targetTxn = isHistoricalView ? viewTxn : lastTxn;
   const isReceiptVisible = modal === "receipt" || isHistoricalView;
+
+  const [showEmail, setShowEmail] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+
+  useEffect(() => {
+    if (!isReceiptVisible) {
+      setShowEmail(false);
+      setEmailInput("");
+      setEmailSent(false);
+    }
+  }, [isReceiptVisible]);
+
+  async function sendReceiptEmail() {
+    if (!emailInput || emailSending) return;
+    setEmailSending(true);
+    try {
+      const { error } = await supabase.functions.invoke("send-receipt-email", {
+        body: { to: emailInput, txn: targetTxn, storeName, birInfo },
+      });
+      if (error) throw error;
+      setEmailSent(true);
+      setShowEmail(false);
+      if (showToast) showToast("Receipt sent to " + emailInput);
+    } catch {
+      if (showToast) showToast("Failed to send email — try again");
+    } finally {
+      setEmailSending(false);
+    }
+  }
 
   if (!modal && !isHistoricalView) return null;
 
@@ -157,12 +190,32 @@ export default function PaymentModals({
                 <button className="print-btn" onClick={() => { document.getElementById("receipt-payment").classList.add("print-receipt-root"); window.print(); setTimeout(()=>document.getElementById("receipt-payment").classList.remove("print-receipt-root"),500); }}>
                   <Printer size={15} style={{marginRight: 6}} /> Print Receipt
                 </button>
+                <button className="print-btn" style={{ gap: 6 }} onClick={() => { setShowEmail(v => !v); setEmailSent(false); }}>
+                  <Mail size={15} /> {emailSent ? "Sent!" : "Email"}
+                </button>
                 {isHistoricalView ? (
                    <button className="charge-btn" style={{ flex: 1, margin: 0, background: "var(--surface3)", color: "var(--text)" }} onClick={() => setViewTxn(null)}>Close Viewer</button>
                 ) : (
                    <button className="charge-btn" style={{ flex: 1, margin: 0 }} onClick={() => setModal(null)}>New Order →</button>
                 )}
               </div>
+              {showEmail && (
+                <div className="receipt-email-row print-hide">
+                  <input
+                    className="cash-input"
+                    style={{ flex: 1, fontSize: 14 }}
+                    type="email"
+                    placeholder="customer@email.com"
+                    value={emailInput}
+                    onChange={e => setEmailInput(e.target.value)}
+                    onKeyDown={e => e.key === "Enter" && sendReceiptEmail()}
+                    autoFocus
+                  />
+                  <button className="btn btn-primary" style={{ flexShrink: 0 }} onClick={sendReceiptEmail} disabled={emailSending || !emailInput}>
+                    {emailSending ? "Sending…" : "Send"}
+                  </button>
+                </div>
+              )}
             </>
           );
         })()}
