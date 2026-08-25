@@ -1517,9 +1517,10 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
 }
 .cash-input:focus{border-color:var(--focus-border);box-shadow:var(--sh-glow);}
 .change-box{
-  background:var(--green-bg);border:1px solid rgba(34,197,94,.3);
+  background:var(--surface2);border:1px solid var(--border);
   border-radius:var(--r);padding:14px 18px;
   display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;
+  box-shadow:var(--sh-inset);
 }
 .change-box .lbl{font-size:13px;color:var(--green-text);font-weight:700;}
 .change-box .val{font-size:24px;font-weight:800;color:var(--green-text);font-family:var(--mono);}
