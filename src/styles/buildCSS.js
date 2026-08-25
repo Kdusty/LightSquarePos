@@ -1759,7 +1759,7 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
 @media(max-width:640px){
   :root{--sidebar-w:0px;}
 
-  /* Sidebar → fixed bottom tab bar */
+  /* ── Sidebar → fixed bottom tab bar ── */
   .sidebar{
     position:fixed;bottom:0;left:0;right:0;
     width:100% !important;height:58px;
@@ -1769,7 +1769,12 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
     padding-bottom:env(safe-area-inset-bottom,0px);
   }
   .sb-inner{flex-direction:row;overflow:visible;min-height:unset;}
+  /* Hide desktop-only sidebar elements */
   .sb-brand,.sb-bottom,.sb-section-label,.nav-badge,.nav-tooltip{display:none !important;}
+  /* Hide sidebar toggle (collapse button) — meaningless on mobile */
+  .sb-toggle{display:none !important;}
+  /* Hide EOD tab — it's a modal, not a view; accessible from within the app */
+  .sb-eod-wrap{display:none !important;}
   .sb-nav{
     display:flex;flex-direction:row;flex:1;
     padding:0;overflow:visible;align-items:stretch;
@@ -1780,62 +1785,78 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
   }
   .nav-item{
     flex-direction:column;align-items:center;
-    gap:2px;flex:1;padding:5px 2px;
+    gap:2px;flex:1;padding:4px 2px;
     min-width:0;border-radius:0;
-    font-size:9px;white-space:normal;
+    font-size:8.5px;white-space:normal;
   }
-  .nav-label{font-size:9px;overflow:visible;white-space:nowrap;flex:none;display:block !important;}
+  .nav-label{font-size:8.5px;overflow:visible;white-space:nowrap;flex:none;display:block !important;letter-spacing:0;}
   .nav-icon-wrap{width:20px;height:20px;}
   .nav-item.active{background:none;color:var(--accent);}
   .nav-item.active .nav-icon-wrap{color:var(--accent);}
   .nav-item.active .nav-label{color:var(--accent);}
 
-  /* Main content — pad bottom for tab bar */
+  /* ── Main content — pad bottom for tab bar ── */
   .main{padding-bottom:58px;width:100%;}
-  .topbar{padding:0 14px;}
+  .topbar{padding:0 14px;gap:8px;}
+  .topbar-date{font-size:10px;}
 
-  /* POS layout — stack vertically */
+  /* ── POS layout — stack vertically ── */
   .pos-layout{flex-direction:column;}
-  .products-area{padding:10px 12px;flex:1;overflow-y:auto;}
-  .products-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;}
-  .search-wrap{max-width:100%;flex:1;}
-  .products-controls{gap:8px;}
 
-  /* Cart — fixed height strip at bottom of content */
+  /* Products area: remove horizontal padding from container
+     (CSS quirk: overflow-y:auto eats padding-right on some iOS versions).
+     Padding is applied directly to inner elements instead. */
+  .products-area{padding:10px 0;flex:1;overflow-y:auto;}
+  .products-controls{padding:0 14px;gap:8px;margin-bottom:14px;}
+  .search-wrap{max-width:100%;flex:1;}
+
+  /* Category pills: horizontal scroll so they never wrap to a second line */
+  .cat-pills{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+  .cat-pills::-webkit-scrollbar{display:none;}
+  .cat-pill{flex-shrink:0;}
+
+  /* Products grid: padding on the grid itself so right edge is always respected */
+  .products-grid{
+    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+    gap:10px;
+    padding:0 14px 10px;
+  }
+
+  /* ── Cart — horizontal strip at bottom of content ── */
   .cart-panel{
     width:100%;height:260px;
     border-left:none;border-top:1px solid var(--border);
     flex-shrink:0;
   }
+  .cart-top{padding:10px 14px;}
+  .cart-body{padding:6px 14px;}
+  .cart-footer{padding:10px 14px;}
+  .total-row.grand .val{font-size:20px;}
+  .order-input{width:72px;}
 
-  /* Analytics */
+  /* ── Analytics ── */
   .stat-grid{grid-template-columns:1fr 1fr;gap:10px;}
   .spark-row{grid-template-columns:1fr;}
   .analytics-bottom{grid-template-columns:1fr;}
   .page-head{padding:12px 16px;}
   .page-body{padding:12px 16px;}
 
-  /* Lock screen */
+  /* ── Lock screen ── */
   .lock-staff-grid{gap:10px;}
   .lock-staff-btn{min-width:88px;padding:14px 12px;}
   .pin-panel{width:calc(100vw - 32px);max-width:320px;}
 
-  /* Modals */
+  /* ── Modals ── */
   .eod-modal{width:96vw;max-width:96vw;}
   .eod-overlay{padding:12px 8px;}
 
-  /* Product cards */
-  .prod-img-wrap{height:80px;}
-  .prod-name{font-size:11.5px;}
-  .prod-price{font-size:13px;}
+  /* ── Product cards ── */
+  .prod-img-wrap{height:90px;}
+  .prod-name{font-size:12px;}
+  .prod-price{font-size:13.5px;}
+  .prod-info{padding:0 10px;}
 
-  /* Cart items */
-  .cart-top{padding:10px 12px;}
-  .cart-body{padding:6px 12px;}
-  .cart-footer{padding:10px 12px;}
-  .total-row.grand .val{font-size:20px;}
-
-  /* Prevent iOS auto-zoom on input focus (requires font-size >= 16px) */
+  /* ── Prevent iOS auto-zoom on input focus (requires font-size >= 16px) ── */
   input,select,textarea{font-size:16px !important;}
 }
 

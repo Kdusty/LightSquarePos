@@ -34,7 +34,7 @@ export default function Sidebar({
               <div className="sb-section-label">Reports</div>
               {can("analytics") && <NavItem icon={<LayoutDashboard size={16} />} label="Analytics" id="analytics" active={view} onClick={setView} collapsed={!sidebarOpen} />}
               {can("transactions") && <NavItem icon={<Receipt size={16} />} label="Transactions" id="transactions" active={view} onClick={setView} collapsed={!sidebarOpen} />}
-              {can("analytics") && <NavItem icon={<span style={{ fontSize: 15 }}>📋</span>} label="End of Day" id="eod" active={view} onClick={() => { setEodOpen(true); }} collapsed={!sidebarOpen} />}
+              {can("analytics") && <span className="sb-eod-wrap"><NavItem icon={<span style={{ fontSize: 15 }}>📋</span>} label="End of Day" id="eod" active={view} onClick={() => { setEodOpen(true); }} collapsed={!sidebarOpen} /></span>}
             </div>
           )}
           <div className="sb-section">
