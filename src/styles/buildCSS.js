@@ -1846,6 +1846,29 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
   .lock-staff-btn{min-width:88px;padding:14px 12px;}
   .pin-panel{width:calc(100vw - 32px);max-width:320px;}
 
+  /* ── Settings — nav becomes horizontal scroll bar on top ── */
+  .settings-wrap{grid-template-columns:1fr;gap:0;}
+  .settings-nav-list{
+    flex-direction:row;overflow-x:auto;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    gap:4px;padding:10px 14px;
+    border-bottom:1px solid var(--border);margin-bottom:16px;
+  }
+  .settings-nav-list::-webkit-scrollbar{display:none;}
+  .s-nav-item{white-space:nowrap;flex-shrink:0;padding:7px 14px;border-radius:99px;font-size:12px;}
+
+  /* ── Tables — horizontal scroll so columns never get clipped ── */
+  .table-card{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{min-width:520px;}
+
+  /* ── Transactions — stats stack to single column ── */
+  .txn-stats{grid-template-columns:1fr;gap:8px;margin-bottom:12px;}
+  .txn-stat-value{font-size:18px;}
+  /* Toolbar: search full-width, filters wrap below */
+  .table-toolbar{flex-direction:column;align-items:stretch;gap:8px;padding:12px 14px;}
+  .table-toolbar .search-wrap{max-width:100% !important;min-width:0;}
+  .txn-method-btns,.txn-date-btns{flex-wrap:wrap;gap:4px;}
+
   /* ── Modals ── */
   .eod-modal{width:96vw;max-width:96vw;}
   .eod-overlay{padding:12px 8px;}
