@@ -435,6 +435,10 @@ a{touch-action:manipulation;}
 .card-badge.low{background:var(--amber-bg);color:var(--amber-text);}
 .card-badge.qty{background:var(--text);color:var(--bg);width:22px;height:22px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:99px;}
 
+/* Cart sheet wrapper — display:contents makes it invisible to the desktop flex layout */
+.mcs-outer{display:contents;}
+.mobile-cart-fab{display:none;}
+
 /* ── Cart ── */
 .cart-panel{
   width:355px;flex-shrink:0;
@@ -1805,8 +1809,9 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
 
   /* Products area: remove horizontal padding from container
      (CSS quirk: overflow-y:auto eats padding-right on some iOS versions).
-     Padding is applied directly to inner elements instead. */
-  .products-area{padding:10px 0;flex:1;overflow-y:auto;}
+     Padding is applied directly to inner elements instead.
+     Extra bottom padding ensures the last product row clears the FAB. */
+  .products-area{padding:10px 0 80px;flex:1;overflow-y:auto;}
   .products-controls{padding:0 14px;gap:8px;margin-bottom:14px;}
   .search-wrap{max-width:100%;flex:1;}
 
@@ -1822,16 +1827,55 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
     padding:0 14px 10px;
   }
 
-  /* ── Cart — horizontal strip at bottom of content ── */
-  .cart-panel{
-    width:100%;height:260px;
-    border-left:none;border-top:1px solid var(--border);
-    flex-shrink:0;
+  /* ── Cart — slide-up bottom sheet on mobile ── */
+  .mcs-outer{display:block;}
+  .mcs-outer .cart-panel{
+    position:fixed;
+    bottom:-100vh;left:0;right:0;
+    width:100% !important;
+    height:88vh;
+    border-left:none !important;
+    border-top:1px solid var(--border);
+    border-radius:20px 20px 0 0;
+    z-index:50;
+    transition:bottom .35s cubic-bezier(.32,.72,0,1);
+    box-shadow:0 -8px 40px rgba(0,0,0,.45);
+    padding-bottom:env(safe-area-inset-bottom,0px);
   }
-  .cart-top{padding:10px 14px;}
-  .cart-body{padding:6px 14px;}
-  .cart-footer{padding:10px 14px;}
-  .total-row.grand .val{font-size:20px;}
+  .mcs-outer.open .cart-panel{bottom:58px;}
+  .mcs-outer .cart-panel::before{
+    content:'';display:block;
+    width:40px;height:4px;
+    background:var(--border2);border-radius:99px;
+    margin:12px auto 0;flex-shrink:0;
+  }
+  .mcs-backdrop{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:45;
+    -webkit-backdrop-filter:blur(2px);
+    backdrop-filter:blur(2px);
+  }
+  .mobile-cart-fab{
+    display:flex;
+    position:fixed;
+    bottom:calc(58px + env(safe-area-inset-bottom,0px) + 10px);
+    left:16px;right:16px;
+    background:var(--cta-bg);color:var(--cta-text);
+    border:none;border-radius:14px;
+    padding:14px 18px;
+    align-items:center;gap:12px;
+    z-index:36;cursor:pointer;
+    box-shadow:0 4px 24px rgba(0,0,0,.4);
+    touch-action:manipulation;
+  }
+  .mcf-badge{
+    background:rgba(255,255,255,.2);
+    border-radius:99px;padding:2px 9px;
+    font-size:12px;font-weight:800;flex-shrink:0;
+  }
+  .mcf-label{flex:1;text-align:left;font-size:14px;font-weight:800;}
+  .mcf-total{font-size:14px;font-weight:800;font-family:var(--mono);flex-shrink:0;}
   .order-input{width:72px;}
 
   /* ── Analytics ── */
