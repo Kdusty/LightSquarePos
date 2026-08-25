@@ -343,7 +343,7 @@ a{touch-action:manipulation;}
 .no-access h3{font-size:18px;font-weight:800;color:var(--text2);}
 
 /* ── Main ── */
-.main{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0;}
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0;padding-top:env(safe-area-inset-top,0px);}
 
 /* ── Topbar ── */
 .topbar{
@@ -1833,7 +1833,7 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
     position:fixed;
     bottom:-100vh;left:0;right:0;
     width:100% !important;
-    height:88vh;
+    height:70vh;
     border-left:none !important;
     border-top:1px solid var(--border);
     border-radius:20px 20px 0 0;
