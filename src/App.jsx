@@ -32,6 +32,7 @@ import EODReport from "./components/EODReport.jsx";
 import MiscModals from "./components/MiscModals.jsx";
 import OnboardingGuide from "./components/OnboardingGuide.jsx";
 import HelpModal from "./components/HelpModal.jsx";
+import InstallBanner from "./components/InstallBanner.jsx";
 import TrialExpiredPaywall from "./components/TrialExpiredPaywall.jsx";
 import DeviceLimitScreen from "./components/DeviceLimitScreen.jsx";
 import { useDeviceSession } from "./hooks/useDeviceSession.js";
@@ -849,6 +850,7 @@ function MainApp({ authUser }) {
   return (
     <>
       <style>{buildCSS(dark)}</style>
+      <InstallBanner />
       {showOnboarding && <OnboardingGuide onDone={dismissTour} />}
       {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
       <div style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>

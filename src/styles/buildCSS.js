@@ -69,8 +69,9 @@ export const buildCSS = (dark) => `
 
 html,body,#root{height:100%;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
-button{font-family:var(--font);cursor:pointer;}
-input,select,textarea{font-family:var(--font);}
+button{font-family:var(--font);cursor:pointer;touch-action:manipulation;}
+input,select,textarea{font-family:var(--font);touch-action:manipulation;}
+a{touch-action:manipulation;}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:99px;}
@@ -1833,6 +1834,9 @@ tbody tr.voided td:first-child,tbody tr.voided td:last-child{text-decoration:non
   .cart-body{padding:6px 12px;}
   .cart-footer{padding:10px 12px;}
   .total-row.grand .val{font-size:20px;}
+
+  /* Prevent iOS auto-zoom on input focus (requires font-size >= 16px) */
+  input,select,textarea{font-size:16px !important;}
 }
 
 /* ── Print Styles ── */
