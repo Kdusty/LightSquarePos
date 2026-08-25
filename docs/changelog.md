@@ -4,6 +4,22 @@ Running log of every task, most recent first.
 
 ---
 
+## CHG-037 — Mobile cart: replace strip with slide-up bottom sheet + FAB
+
+**Date:** 2026-08-25
+**Type:** Feature
+**Requested:** Fix Charge button hidden on mobile (Chrome browser + PWA). The 260px fixed cart strip couldn't fit the full cart footer — charge button was cut off by Chrome's browser toolbar or left with no breathing room.
+
+**Decision:** Replaced the 260px horizontal cart strip (a tablet UX pattern) with the standard mobile POS pattern: full-screen products grid + a floating "View Order" pill button + an 88vh slide-up bottom sheet. The sheet contains the full Cart component (items, totals, Cash/GCash, Charge button) with its footer always visible at its natural position. Desktop (>640px) and tablet completely unchanged — the `mcs-outer` wrapper uses `display:contents` on desktop so it is invisible to the flex layout.
+
+**Changes:**
+- `src/components/POSView.jsx` — added `sheetOpen` state, `useEffect` to auto-close on cart empty, `mcs-outer` wrapper with open class, conditional backdrop div, mobile FAB button with item count + total
+- `src/styles/buildCSS.js` — global: `.mcs-outer{display:contents}`, `.mobile-cart-fab{display:none}`; in 640px media query: removed 260px cart strip, added `.mcs-outer` sheet positioning (position:fixed, bottom:-100vh → 58px on .open), drag handle via ::before pseudo-element, backdrop overlay, FAB styles, products-area padding-bottom:80px for FAB clearance
+
+**Commits:** 690b088
+
+---
+
 ## CHG-036 — PWA setup + full mobile/tablet responsiveness
 
 **Date:** 2026-08-24
@@ -20,7 +36,7 @@ Running log of every task, most recent first.
 - `vite.config.js` — added VitePWA plugin with Workbox runtime caching (Supabase NetworkFirst, Google Fonts CacheFirst/StaleWhileRevalidate)
 - `src/styles/buildCSS.js` — added `@media(max-width:640px)`: sidebar → fixed bottom tab bar (58px), pos-layout stacks vertically, cart panel becomes 260px horizontal strip, analytics grids collapse to 1–2 columns, modals go full-width, safe-area-inset padding for notched phones
 
-**Commits:** (pending)
+**Commits:** f005295
 
 ---
 
